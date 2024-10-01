@@ -58,9 +58,35 @@ public class OwnerService {
         return ownerRepository.save(owner);
     }
 
-    //     // 회원 탈퇴
+    //  회원 탈퇴
     public void deleteMember(Long ownerNum) {
         ownerRepository.deleteById(ownerNum);
+
+    }
+
+    // 회원 업데이트
+    public Owner updateStoreInfo(Long ownerId, String storeName, String description, String location, String imageurl) {
+
+        // 1.저장소 정보 조회
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new RuntimeException("저장소를 찾을 수 없습니다."));
+
+        // 2. 정보 수정
+//        if (storeName != null && !storeName.isEmpty()) {
+//            ownerRepository.setStoreName(storeName);
+//        }
+//        if (description != null && !description.isEmpty()) {
+//            ownerRepository.setDescription(description);
+//        }
+//        if (location != null && !location.isEmpty()) {
+//            ownerRepository.setLocation(location);
+//        }
+//        if (imageUrl != null && !imageUrl.isEmpty()) {
+//            ownerRepository.setImageUrl(imageUrl);
+//        }
+
+        // 3. 수정된 정보 저장
+        return ownerRepository.save(owner);
     }
 
 }
