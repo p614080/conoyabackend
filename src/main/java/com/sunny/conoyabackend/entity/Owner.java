@@ -22,9 +22,11 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ownerId;
 
-    private String ownerNum;
-    private String ownerPassword;
-    private String storeName;
+    private String ownerNum; // 사업자 번호
+    private String ownerPassword; // 오너 비밀번호
+    private String storeName; // 노래방 이름
+    private String location; // 노래방위치 정보
+    private String imageUrl; // 노래방이미지 URl
 
     private Role role;
 
