@@ -12,21 +12,31 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    // 회원 정보 수정
-    @PutMapping("/{id}")
-    public ResponseEntity<Member> updateMember(
-            @PathVariable
-            Long id,
-            @RequestBody
-            Member updateMember) {
-        Member member = memberService.updateMember(id, updateMember);
-        return ResponseEntity.ok(member);
+    // 이메일로 로그인
+//    @PostMapping("/login")
+//    public ResponseEntity<Member> login(@RequestParam String email, @RequestParam String password) {
+//        Member loggedInMember = memberService.login(email, password);
+//        return ResponseEntity.ok(loggedInMember); // 로그인 성공 시 회원 정보 반환
+//    }
+
+    // 닉네임 변경
+    @PutMapping("/{id}/nickname")
+    public ResponseEntity<Member> updateNickname(@PathVariable Long id, @RequestParam String nickname) {
+        Member updatedMember = memberService.updateNickname(id, nickname);
+        return ResponseEntity.ok(updatedMember);
     }
 
-//    // 회원 정보 삭제
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
-//        memberService.deleteMember(id);
-//        return ResponseEntity.noContent().build();
-//    }
+    // 비밀번호 변경
+    @PutMapping("/{id}/password")
+    public ResponseEntity<Member> changePassword(@PathVariable Long id, @RequestParam String oldPassword, @RequestParam String newPassword) {
+        Member updatedMember = memberService.changePassword(id, oldPassword, newPassword);
+        return ResponseEntity.ok(updatedMember);
+    }
+
+    // 회원 탈퇴
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
+        memberService.deleteMember(id);
+        return ResponseEntity.noContent().build();
+    }
 }
