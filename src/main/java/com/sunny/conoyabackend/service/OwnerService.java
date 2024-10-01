@@ -1,10 +1,10 @@
-package com.sunny.conoyabackend.Service;
+package com.sunny.conoyabackend.service;
 
 
-import com.sunny.conoyabackend.DTO.JoinRequest;
-import com.sunny.conoyabackend.DTO.LoginRequest;
-import com.sunny.conoyabackend.Entity.Owner;
-import com.sunny.conoyabackend.Repository.OwnerRepository;
+import com.sunny.conoyabackend.dto.JoinRequest;
+import com.sunny.conoyabackend.dto.LoginRequest;
+import com.sunny.conoyabackend.entity.Owner;
+import com.sunny.conoyabackend.repository.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
