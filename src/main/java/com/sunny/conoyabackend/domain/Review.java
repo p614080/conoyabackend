@@ -3,6 +3,8 @@ package com.sunny.conoyabackend.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @AllArgsConstructor
@@ -15,9 +17,9 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long review_no;
 
-    private String noraebang;
+    private Long noraebang_no;
     private String writer;
-    private byte rating;
+    private short rating;
     private String review_content;
-    private String dueDate;
+    private LocalDate dueDate;
 }
