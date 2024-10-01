@@ -22,20 +22,20 @@ public class ReviewServiceImpl implements ReviewService{
     public Long register(ReviewDTO reviewDTO){
         Review review =modelMapper.map(reviewDTO, Review.class);
         Review result =reviewRepository.save(review);
-        return review.getRno();
+        return review.getReview_no();
     }
 
     @Override
-    public ReviewDTO get(Long rno){
-        Optional<Review> result = reviewRepository.findById(rno);
+    public ReviewDTO get(Long review_no){
+        Optional<Review> result = reviewRepository.findById(review_no);
         Review review = result.orElseThrow();
         ReviewDTO reviewDTO = modelMapper.map(review, ReviewDTO.class);
         return reviewDTO;
     }
 
     @Override
-    public void remove(Long rno){
-        reviewRepository.deleteById(rno);
+    public void remove(Long review_no){
+        reviewRepository.deleteById(review_no);
     }
 
 }

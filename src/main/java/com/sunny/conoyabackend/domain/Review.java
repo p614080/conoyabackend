@@ -13,7 +13,7 @@ import lombok.*;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rno;
+    private Long review_no;
 
     private String noraebang;
     private String writer;
