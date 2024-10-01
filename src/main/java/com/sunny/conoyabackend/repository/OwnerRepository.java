@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
-    boolean existsByownerEmail(String ownerEmail);
-    boolean existsByownerNickname(String ownerNickname);
-    Optional<Owner> findByownerEmail(String ownerEmail);
+    boolean existsByOwnerEmail(String ownerEmail);
+    boolean existsByOwnerNickname(String ownerNickname);
+    Optional<Owner> findByOwnerEmail(String ownerEmail);
 }

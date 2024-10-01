@@ -19,11 +19,11 @@ public class OwnerService {
     private final OwnerRepository ownerRepository;
 
     public boolean checkLoginIdDuplicate2(String ownerEmail) {
-        return ownerRepository.existsByownerEmail(ownerEmail);
+        return ownerRepository.existsByOwnerEmail(ownerEmail);
     }
 
     public boolean checkNicknameDuplicate(String ownerNickname) {
-        return ownerRepository.existsByownerNickname(ownerNickname);
+        return ownerRepository.existsByOwnerNickname(ownerNickname);
     }
 
     public void join2(JoinRequest ownerReq) {
@@ -31,7 +31,7 @@ public class OwnerService {
     }
 
     public Owner login2(LoginRequest ownerReq) {
-        Optional<Owner> optionalOwner = ownerRepository.findByownerEmail(ownerReq.getOwnerEmail());
+        Optional<Owner> optionalOwner = ownerRepository.findByOwnerEmail(ownerReq.getOwnerEmail());
 
         if(optionalOwner.isEmpty()) {
             return null;
@@ -57,7 +57,7 @@ public class OwnerService {
     public Owner getLoginOwnerByLoginId(String ownerEmail) {
         if(ownerEmail == null) return null;
 
-        Optional<Owner> optionalOwner = ownerRepository.findByownerEmail(ownerEmail);
+        Optional<Owner> optionalOwner = ownerRepository.findByOwnerEmail(ownerEmail);
         if(optionalOwner.isEmpty()) return null;
 
         return optionalOwner.get();
