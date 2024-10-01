@@ -1,7 +1,7 @@
 package com.sunny.conoyabackend.Entity;
 
 
-import com.sunny.conoyabackend.UserRole;
+import com.sunny.conoyabackend.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,13 +20,13 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
-    private String loginEmail;
-    private String password;
-    private String nickname;
+    private String userEmail;
+    private String userPassword;
+    private String userNickname;
 
-    private UserRole role;
+    private Role role;
 
 
 }
