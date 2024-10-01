@@ -19,4 +19,5 @@ public class Review {
     private String writer;
     private byte rating;
     private String review_content;
+    private String dueDate;
 }
