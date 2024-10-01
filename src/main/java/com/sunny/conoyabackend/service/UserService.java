@@ -47,7 +47,7 @@ public class UserService {
     public User login(LoginRequest userReq) {
         Optional<User> optionalUser = userRepository.findByUserEmail(userReq.getUserEmail());
 
-        // userEmail와 일치하는 User가 없으면 null return
+        // userEmail와 일치하는 User 없으면 null return
         if (optionalUser.isEmpty()) {
             return null;
         }
@@ -60,7 +60,6 @@ public class UserService {
         }
         return user;
     }
-
     // 닉네임 변경
     public User updateNickname(Long userId, String newNickname) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));

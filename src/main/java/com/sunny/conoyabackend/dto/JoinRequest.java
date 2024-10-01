@@ -13,19 +13,24 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class JoinRequest {
-    @NotBlank(message = "로그인 아이디가 비어있습니다.")
-    private  String ownerNum;
-    private String userEmail;
 
-    @NotBlank(message = "비밀번호가 비어있습니다.")
+    // 회원가입 요청처리
+    @NotBlank(message = "로그인 아이디를 입력해주세요.")
+    private String userEmail;
+    @NotBlank(message = "사업자번호를 입력해주세요.")
+    private String ownerNum;
+
+    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String userPassword;
     private String userPasswordCheck;
     private String ownerPassword;
     private String ownerPasswordCheck;
 
 
-    @NotBlank(message = "닉네임이 비어있습니다.")
+    @NotBlank(message = "닉네임을 입력해주세요.")
     private String userNickname;
+
+    @NotBlank(message = "가게명이 비어있습니다.")
     private String storeName;
 
 

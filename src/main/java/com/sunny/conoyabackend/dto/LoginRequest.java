@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class LoginRequest {
-
+    // 로그인 요청 처리
     private String userEmail;
     private String userPassword;
 
