@@ -1,7 +1,6 @@
-package com.sunny.conoyabackend.Service;
+package com.sunny.conoyabackend.service;
 
-
-import com.sunny.conoyabackend.Repository.UserRepository;
+import com.sunny.conoyabackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
