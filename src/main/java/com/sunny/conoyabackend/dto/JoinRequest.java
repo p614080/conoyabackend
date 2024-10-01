@@ -1,7 +1,7 @@
-package com.sunny.conoyabackend.DTO;
+package com.sunny.conoyabackend.dto;
 
 
-import com.sunny.conoyabackend.Entity.User;
+import com.sunny.conoyabackend.entity.User;
 import com.sunny.conoyabackend.UserRole;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

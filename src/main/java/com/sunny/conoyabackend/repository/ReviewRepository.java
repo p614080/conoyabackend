@@ -1,4 +1,4 @@
-package com.sunny.conoyabackend.Repository;
+package com.sunny.conoyabackend.repository;
 
 import com.sunny.conoyabackend.domain.Review;
 import org.springframework.data.jpa.repository.JpaRepository;

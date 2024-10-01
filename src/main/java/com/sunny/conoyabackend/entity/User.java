@@ -1,4 +1,4 @@
-package com.sunny.conoyabackend.Entity;
+package com.sunny.conoyabackend.entity;
 
 
 import com.sunny.conoyabackend.UserRole;

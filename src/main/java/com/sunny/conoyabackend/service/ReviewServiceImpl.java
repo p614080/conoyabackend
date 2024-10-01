@@ -1,8 +1,8 @@
-package com.sunny.conoyabackend.Service;
+package com.sunny.conoyabackend.service;
 
-import com.sunny.conoyabackend.DTO.ReviewDTO;
+import com.sunny.conoyabackend.dto.ReviewDTO;
 
-import com.sunny.conoyabackend.Repository.ReviewRepository;
+import com.sunny.conoyabackend.repository.ReviewRepository;
 import com.sunny.conoyabackend.domain.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

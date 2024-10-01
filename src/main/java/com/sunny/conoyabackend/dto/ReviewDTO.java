@@ -1,4 +1,4 @@
-package com.sunny.conoyabackend.DTO;
+package com.sunny.conoyabackend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

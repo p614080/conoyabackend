@@ -1,4 +1,4 @@
-package com.sunny.conoyabackend.DTO;
+package com.sunny.conoyabackend.dto;
 
 
 import lombok.Getter;

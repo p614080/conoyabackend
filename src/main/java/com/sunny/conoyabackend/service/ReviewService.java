@@ -1,6 +1,6 @@
-package com.sunny.conoyabackend.Service;
+package com.sunny.conoyabackend.service;
 
-import com.sunny.conoyabackend.DTO.ReviewDTO;
+import com.sunny.conoyabackend.dto.ReviewDTO;
 
 public interface ReviewService {
     Long register(ReviewDTO reviewDTO);
