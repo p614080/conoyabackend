@@ -22,9 +22,15 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ownerId;
 
-    private String ownerEmail;
+    private String ownerNum;
     private String ownerPassword;
-    private String ownerNickname;
+    private String storeName;
 
     private Role role;
+
+
+    // Nickname에 대한 setter만 추가
+    public void setOwnerPassword(String ownerPassword) {
+        this.ownerPassword = ownerPassword;
+    }
 }

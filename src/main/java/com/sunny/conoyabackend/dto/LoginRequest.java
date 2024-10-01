@@ -13,6 +13,6 @@ public class LoginRequest {
     private String userEmail;
     private String userPassword;
 
-    private String ownerEmail;
+    private String ownerNum;
     private String ownerPassword;
 }

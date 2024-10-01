@@ -4,6 +4,7 @@ package com.sunny.conoyabackend.service;
 import com.sunny.conoyabackend.dto.JoinRequest;
 import com.sunny.conoyabackend.dto.LoginRequest;
 import com.sunny.conoyabackend.entity.Owner;
+import com.sunny.conoyabackend.entity.User;
 import com.sunny.conoyabackend.repository.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,12 @@ public class OwnerService {
 
     private final OwnerRepository ownerRepository;
 
-    public boolean checkLoginIdDuplicate2(String ownerEmail) {
-        return ownerRepository.existsByOwnerEmail(ownerEmail);
+    public boolean checkLoginIdDuplicate2(String ownerNum) {
+        return ownerRepository.existsByOwnerNum(ownerNum);
     }
 
-    public boolean checkNicknameDuplicate(String ownerNickname) {
-        return ownerRepository.existsByOwnerNickname(ownerNickname);
+    public boolean checkNicknameDuplicate2(String storeName) {
+        return ownerRepository.existsByStoreName(storeName);
     }
 
     public void join2(JoinRequest ownerReq) {
@@ -31,7 +32,7 @@ public class OwnerService {
     }
 
     public Owner login2(LoginRequest ownerReq) {
-        Optional<Owner> optionalOwner = ownerRepository.findByOwnerEmail(ownerReq.getOwnerEmail());
+        Optional<Owner> optionalOwner = ownerRepository.findByOwnerNum(ownerReq.getOwnerNum());
 
         if(optionalOwner.isEmpty()) {
             return null;
@@ -45,21 +46,21 @@ public class OwnerService {
         return owner;
     }
 
-    public Owner getLoginOwnerById(Long ownerId) {
-        if(ownerId == null) return null;
 
-        Optional<Owner> optionalOwner = ownerRepository.findById(ownerId);
-        if(optionalOwner.isEmpty()) return null;
 
-        return optionalOwner.get();
+    // 비밀번호 변경
+    public Owner changePassword(Long ownerNum, String oldPassword, String newPassword) {
+        Owner owner = ownerRepository.findById(ownerNum).orElseThrow(() -> new RuntimeException("owner not found"));
+        if (!owner.getOwnerPassword().equals(oldPassword)) {
+            throw new RuntimeException("Incorrect old password");
+        }
+        owner.setOwnerPassword(newPassword);
+        return ownerRepository.save(owner);
     }
 
-    public Owner getLoginOwnerByLoginId(String ownerEmail) {
-        if(ownerEmail == null) return null;
-
-        Optional<Owner> optionalOwner = ownerRepository.findByOwnerEmail(ownerEmail);
-        if(optionalOwner.isEmpty()) return null;
-
-        return optionalOwner.get();
+    //     // 회원 탈퇴
+    public void deleteMember(Long ownerNum) {
+        ownerRepository.deleteById(ownerNum);
     }
+
 }

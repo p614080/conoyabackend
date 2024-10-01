@@ -28,5 +28,12 @@ public class User {
 
     private Role role;
 
-
+    // Nickname에 대한 setter만 추가
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
+    // password에 대한 setter만 추가
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 }
