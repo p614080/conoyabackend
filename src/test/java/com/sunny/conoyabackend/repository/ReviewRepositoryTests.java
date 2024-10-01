@@ -42,7 +42,7 @@ class ReviewRepositoryTests {
 
     @Test
     @DisplayName("리포지토리 Insert 100개 테스트")
-    public void test3() {
+    public void test_insert_repository_100() {
         for(int i = 1; i<=100; i++) {
             Review review = Review.builder()
                     .noraebang_no(100L)
@@ -51,7 +51,7 @@ class ReviewRepositoryTests {
                     .writer("사용자"+i)
                     .build();
             Review result = reviewRepository.save(review);
-            log.info("====리파지토리 Insert x100====");
+            log.info("===리파지토리 Insert x100===");
             log.info(result.toString());
         }
     }

@@ -15,7 +15,7 @@ public class ReviewDTO {
 
     private String noraebang;
     private String writer;
-    private byte rating;
+    private short rating;
     private String review_content;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
