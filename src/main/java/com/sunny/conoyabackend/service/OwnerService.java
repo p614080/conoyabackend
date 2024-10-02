@@ -6,6 +6,8 @@ import com.sunny.conoyabackend.dto.LoginDTO;
 import com.sunny.conoyabackend.dto.OwnerDTO;
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.repository.OwnerRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,7 @@ public class OwnerService {
         ownerRepository.save(ownerReq.ownerEntity());
     }
 
+    // 로그인
     public OwnerEntity login2(LoginDTO ownerReq) {
         Optional<OwnerEntity> optionalOwner = ownerRepository.findByOwnerEmail(ownerReq.getOwnerEmail());
 
@@ -45,7 +48,14 @@ public class OwnerService {
         }
         return ownerEntity;
     }
-
+    // 로그아웃
+    public OwnerEntity logout(HttpServletRequest request, OwnerEntity owner) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // 세션 무효화
+        }
+        return owner; // 로그아웃된 사용자 정보를 반환할 수 있습니다.
+    }
 
 
     // 비밀번호 변경
