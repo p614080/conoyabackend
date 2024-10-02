@@ -13,6 +13,7 @@ import lombok.Setter;
 public class OwnerDTO {
 
 
+    private String ownerEmail;
     private String storeName;
     private String description;
     private String location;

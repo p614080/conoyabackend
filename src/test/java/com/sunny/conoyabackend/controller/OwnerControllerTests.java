@@ -55,10 +55,20 @@ class OwnerControllerTests {
     @Test
     @DisplayName("리파지토리 조회 테스트")
     public void test_find_repository(){
-        Long userId =98L;
-        Optional<OwnerEntity> result = ownerRepository.findById(userId);
+        Long ownerId =5L;
+        Optional<OwnerEntity> result = ownerRepository.findById(ownerId);
         OwnerEntity owner = result.orElseThrow();
         log.info("====리파지토리 조회====");
+        log.info(owner.toString());
+    }
+
+    @Test
+    @DisplayName("회원정보 수정 테스트")
+    public void test_update_repository(){
+        Long ownerId = 5L;
+        Optional<OwnerEntity> result = ownerRepository.findById(ownerId);
+        OwnerEntity owner = result.orElseThrow();
+        log.info("====회원 정보 수정====");
         log.info(owner.toString());
     }
 }

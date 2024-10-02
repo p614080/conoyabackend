@@ -30,7 +30,7 @@ public class OwnerEntity {
     private String description; // 노래방 정보
 
     // 업데이트 메서드
-    public void updateStoreInfo(String storeName, String description, String location, String imageUrl) {
+    public void updateStoreInfo(String storeName, String description, String location, String imageUrl, String ownerEmail) {
         if (storeName != null && !storeName.isEmpty()) {
             this.storeName = storeName;
         }
@@ -42,6 +42,9 @@ public class OwnerEntity {
         }
         if (imageUrl != null && !imageUrl.isEmpty()) {
             this.imageUrl = imageUrl;
+        }
+        if (ownerEmail != null && !ownerEmail.isEmpty()) {
+            this.ownerEmail = ownerEmail;
         }
     }
 
