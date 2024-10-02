@@ -16,7 +16,7 @@ import lombok.*;
 public class Favorites {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String favorites_id;
+    private Long favorites_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
