@@ -6,12 +6,14 @@ import com.sunny.conoyabackend.dto.UserDTO;
 import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -23,8 +25,26 @@ public class UserController {
      * @return HTTP 상태 코드
      */
     @PostMapping("/join")
-    public ResponseEntity<String> join(@RequestBody JoinDTO joinDTO) {
+    public ResponseEntity<String> join(@RequestBody JoinDTO joinDTO, BindingResult bindingResult) {
         userService.join(joinDTO);  // 회원가입 서비스 호출
+        // 비밀번호 일치 검증
+        if (!joinDTO.getUserPassword().equals(joinDTO.getUserPasswordCheck())) {
+            bindingResult.rejectValue("password", "passwordCheck",
+                    "2개의 패스워드가 일치하지 않습니다.");
+        }
+        // 이미 등록된 사용자
+        try {
+            userService.join(joinDTO);
+        }catch(DataIntegrityViolationException e) {
+            e.printStackTrace();
+            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+
+        }catch(Exception e) {
+            e.printStackTrace();
+            bindingResult.reject("signupFailed", e.getMessage());
+
+        }
+
         return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);  // 성공 메시지와 상태 코드 반환
     }
     // 이메일로 로그인

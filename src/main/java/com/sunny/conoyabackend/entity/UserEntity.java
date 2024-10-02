@@ -22,8 +22,13 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @Column(nullable = false, length = 25, unique = true)
     private String userEmail;
+
+    @Column(length = 25)
     private String userPassword;
+
+    @Column(nullable = false, length = 25, unique = true)
     private String userNickname;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
