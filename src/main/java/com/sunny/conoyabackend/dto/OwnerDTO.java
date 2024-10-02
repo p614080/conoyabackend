@@ -1,22 +1,19 @@
 package com.sunny.conoyabackend.dto;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OwnerDTO {
 
-
-//    // 업데이트 메서드
-//    public void updateStoreName(String storeName) {
-//        this.storeName = storeName;
-//    }
-//
-//    public void updateDescription(String description) {
-//        this.description = description;
-//    }
-//
-//    public void updateLocation(String location) {
-//        this.location = location;
-//    }
-//
-//    public void updateImageUrl(String imageUrl) {
-//        this.imageUrl = imageUrl;
-//    }
+    private String storeName;
+    private String description;
+    private String location;
+    private String imageUrl;
 }

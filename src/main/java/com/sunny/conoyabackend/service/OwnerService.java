@@ -3,6 +3,7 @@ package com.sunny.conoyabackend.service;
 
 import com.sunny.conoyabackend.dto.JoinDTO;
 import com.sunny.conoyabackend.dto.LoginDTO;
+import com.sunny.conoyabackend.dto.OwnerDTO;
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.repository.OwnerRepository;
 import lombok.RequiredArgsConstructor;
@@ -64,25 +65,18 @@ public class OwnerService {
     }
 
     // 회원 업데이트
-    public OwnerEntity updateStoreInfo(Long ownerId, String storeName, String description, String location, String imageurl) {
-
-        // 1.저장소 정보 조회
+    public OwnerEntity updateStoreInfo(Long ownerId, OwnerDTO ownerDTO) {
+        // 1. 저장소 정보 조회
         OwnerEntity ownerEntity = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new RuntimeException("저장소를 찾을 수 없습니다."));
+                .orElseThrow(() -> new RuntimeException("Owner not found with id: " + ownerId));
 
-        // 2. 정보 수정
-//        if (storeName != null && !storeName.isEmpty()) {
-//            ownerRepository.setStoreName(storeName);
-//        }
-//        if (description != null && !description.isEmpty()) {
-//            ownerRepository.setDescription(description);
-//        }
-//        if (location != null && !location.isEmpty()) {
-//            ownerRepository.setLocation(location);
-//        }
-//        if (imageUrl != null && !imageUrl.isEmpty()) {
-//            ownerRepository.setImageUrl(imageUrl);
-//        }
+        // 2. 점주 정보 수정
+        ownerEntity.updateStoreInfo(
+                ownerDTO.getStoreName(),
+                ownerDTO.getDescription(),
+                ownerDTO.getLocation(),
+                ownerDTO.getImageUrl()
+        );
 
         // 3. 수정된 정보 저장
         return ownerRepository.save(ownerEntity);
