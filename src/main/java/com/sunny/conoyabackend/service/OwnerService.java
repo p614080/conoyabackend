@@ -19,8 +19,8 @@ public class OwnerService {
 
     private final OwnerRepository ownerRepository;
 
-    public boolean checkLoginIdDuplicate2(String ownerNum) {
-        return ownerRepository.existsByOwnerNum(ownerNum);
+    public boolean checkLoginIdDuplicate2(String ownerEmail) {
+        return ownerRepository.existsByOwnerEmail(ownerEmail);
     }
 
     public boolean checkNicknameDuplicate2(String storeName) {
@@ -32,7 +32,7 @@ public class OwnerService {
     }
 
     public OwnerEntity login2(LoginDTO ownerReq) {
-        Optional<OwnerEntity> optionalOwner = ownerRepository.findByOwnerNum(ownerReq.getOwnerNum());
+        Optional<OwnerEntity> optionalOwner = ownerRepository.findByOwnerEmail(ownerReq.getOwnerEmail());
 
         if(optionalOwner.isEmpty()) {
             return null;
@@ -49,8 +49,8 @@ public class OwnerService {
 
 
     // 비밀번호 변경
-    public OwnerEntity changePassword(Long ownerNum, String oldPassword, String newPassword) {
-        OwnerEntity ownerEntity = ownerRepository.findById(ownerNum).orElseThrow(() -> new RuntimeException("owner not found"));
+    public OwnerEntity changePassword(Long ownerId, String oldPassword, String newPassword) {
+        OwnerEntity ownerEntity = ownerRepository.findById(ownerId).orElseThrow(() -> new RuntimeException("owner not found"));
         if (!ownerEntity.getOwnerPassword().equals(oldPassword)) {
             throw new RuntimeException("Incorrect old password");
         }
@@ -59,8 +59,8 @@ public class OwnerService {
     }
 
     //  회원 탈퇴
-    public void deleteMember(Long ownerNum) {
-        ownerRepository.deleteById(ownerNum);
+    public void deleteMember(Long ownerId) {
+        ownerRepository.deleteById(ownerId);
 
     }
 

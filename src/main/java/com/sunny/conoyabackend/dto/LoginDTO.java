@@ -13,6 +13,8 @@ public class LoginDTO {
     private String userEmail;
     private String userPassword;
 
-    private String ownerNum;
+
+
+    private String ownerEmail;
     private String ownerPassword;
 }

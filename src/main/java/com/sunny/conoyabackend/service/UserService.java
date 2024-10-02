@@ -5,6 +5,8 @@ import com.sunny.conoyabackend.dto.LoginDTO;
 import com.sunny.conoyabackend.dto.UserDTO;
 import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +63,16 @@ public class UserService {
         }
         return user;
     }
+
+    // 로그아웃 기능
+    public UserEntity logout(HttpServletRequest request, UserEntity user) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // 세션 무효화
+        }
+        return user; // 로그아웃된 사용자 정보를 반환할 수 있습니다.
+    }
+
     // 닉네임 변경
     public UserEntity updateNickname(Long userId, UserDTO nicknameUpdate) {
         // userId로 유저 엔티티 조회

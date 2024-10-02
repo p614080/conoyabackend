@@ -5,6 +5,7 @@ import com.sunny.conoyabackend.dto.LoginDTO;
 import com.sunny.conoyabackend.dto.UserDTO;
 import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -47,13 +48,17 @@ public class UserController {
 
         return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);  // 성공 메시지와 상태 코드 반환
     }
-    // 이메일로 로그인
+    // 로그인
     @PostMapping("/login")
     public ResponseEntity<UserEntity> login(@RequestBody LoginDTO loginDTO) {
         UserEntity loggedInMember = userService.login(loginDTO);
         return ResponseEntity.ok(loggedInMember); // 로그인 성공 시 회원 정보 반환
     }
-
+    // 로그아웃
+    @PostMapping("/logout")
+    public UserEntity logout(HttpServletRequest request, @RequestBody UserEntity user) {
+        return userService.logout(request, user);
+    }
     // 이메일 중복 체크 API
     @GetMapping("/check-email")
     public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
