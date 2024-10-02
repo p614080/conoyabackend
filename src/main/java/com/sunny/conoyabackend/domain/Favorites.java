@@ -7,6 +7,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -14,6 +15,7 @@ import lombok.*;
 @Builder
 public class Favorites {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String favorites_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
