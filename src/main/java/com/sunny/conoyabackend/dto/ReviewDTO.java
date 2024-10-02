@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class ReviewDTO {
     private Long rno;
 
-    private String noraebang;
+    private String noraebang_no;
     private String writer;
     private short rating;
     private String review_content;
