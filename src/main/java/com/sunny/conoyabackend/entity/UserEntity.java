@@ -1,14 +1,15 @@
 package com.sunny.conoyabackend.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.sunny.conoyabackend.domain.Favorites;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -25,7 +26,8 @@ public class UserEntity {
     private String userPassword;
     private String userNickname;
 
-
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorites> favorites = new ArrayList<>();
 
     // Nickname에 대한 setter만 추가
     public void setUserNickname(String userNickname) {
