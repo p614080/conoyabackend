@@ -30,7 +30,6 @@ class UserControllerTests {
     @DisplayName("회원가입 테스트")
     public void test_insert_repository(){
         UserEntity userEntity = UserEntity.builder()
-                .userId(100L)
                 .userEmail("ossetian@naver.com")
                 .userPassword("7788")
                 .userNickname("오오오")
@@ -50,7 +49,7 @@ class UserControllerTests {
                     .userPassword("!@#!@$%")
                     .build();
             UserEntity result = userRepository.save(user);
-            log.info("===리파지토리 Insert x100===");
+            log.info("===리파지토리 Insert " + i + "===");
             log.info(result.toString());
         }
     }

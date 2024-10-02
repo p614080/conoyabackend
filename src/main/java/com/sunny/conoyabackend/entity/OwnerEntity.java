@@ -1,14 +1,15 @@
 package com.sunny.conoyabackend.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.sunny.conoyabackend.domain.Favorites;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -28,7 +29,8 @@ public class OwnerEntity {
     private String imageUrl; // 노래방이미지 URl
     private String description; // 노래방 정보
 
-
+    @OneToMany(mappedBy = "ownerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorites> favorites = new ArrayList<>();
 
 
 
