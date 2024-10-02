@@ -1,8 +1,5 @@
 package com.sunny.conoyabackend.repository;
 
-
-
-
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

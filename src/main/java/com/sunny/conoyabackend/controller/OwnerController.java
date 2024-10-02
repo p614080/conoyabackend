@@ -1,5 +1,6 @@
 package com.sunny.conoyabackend.controller;
 
+import com.sunny.conoyabackend.dto.LoginDTO;
 import com.sunny.conoyabackend.dto.OwnerDTO;
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.service.OwnerService;
@@ -25,11 +26,31 @@ public class OwnerController {
     }
 
 
-    // 로그아웃
+    // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<OwnerEntity> login(@RequestBody LoginDTO loginDTO) {
+        OwnerEntity loggedInMember = ownerService.login2(loginDTO);
+        return ResponseEntity.ok(loggedInMember); //
+    }
 
     // 로그아웃
     @PostMapping("/logout")
     public OwnerEntity logout(HttpServletRequest request, @RequestBody OwnerEntity owner) {
         return ownerService.logout(request, owner);
     }
+
+    // 비밀번호 변경
+    @PutMapping("/{id}/password")
+    public ResponseEntity<OwnerEntity> changePassword(@PathVariable Long ownerId, @RequestParam OwnerDTO passwordOwnerDTO) {
+        OwnerEntity updatedOwnerEntity = ownerService.changePassword(ownerId, passwordOwnerDTO);
+        return ResponseEntity.ok(updatedOwnerEntity);
+    }
+
+    // 회원 탈퇴
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMember (@PathVariable Long ownerId) {
+        ownerService.deleteMember(ownerId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
