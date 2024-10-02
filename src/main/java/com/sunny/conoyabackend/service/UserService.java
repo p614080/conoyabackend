@@ -2,7 +2,7 @@ package com.sunny.conoyabackend.service;
 
 import com.sunny.conoyabackend.dto.JoinDTO;
 import com.sunny.conoyabackend.dto.LoginDTO;
-import com.sunny.conoyabackend.dto.UpdateDTO;
+import com.sunny.conoyabackend.dto.UserDTO;
 import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +62,7 @@ public class UserService {
         return user;
     }
     // 닉네임 변경
-    public UserEntity updateNickname(Long userId, UpdateDTO nicknameUpdate) {
+    public UserEntity updateNickname(Long userId, UserDTO nicknameUpdate) {
         // userId로 유저 엔티티 조회
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -75,14 +75,14 @@ public class UserService {
     }
 
     // 비밀번호 변경
-    public UserEntity changePassword(Long userId, UpdateDTO passwordUpdateDTO) {
+    public UserEntity changePassword(Long userId, UserDTO passwordUserDTO) {
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
         // 기존 비밀번호 확인
-        if (!user.getUserPassword().equals(passwordUpdateDTO.getOldPassword())) {
+        if (!user.getUserPassword().equals(passwordUserDTO.getOldPassword())) {
             throw new RuntimeException("Incorrect old password");
         }
         // 새 비밀번호 설정
-        user.setUserPassword(passwordUpdateDTO.getNewPassword());
+        user.setUserPassword(passwordUserDTO.getNewPassword());
 
         // 엔티티 저장 후 반환
         return userRepository.save(user);

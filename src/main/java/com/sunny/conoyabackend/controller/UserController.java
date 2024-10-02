@@ -2,7 +2,7 @@ package com.sunny.conoyabackend.controller;
 
 import com.sunny.conoyabackend.dto.JoinDTO;
 import com.sunny.conoyabackend.dto.LoginDTO;
-import com.sunny.conoyabackend.dto.UpdateDTO;
+import com.sunny.conoyabackend.dto.UserDTO;
 import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,15 +50,15 @@ public class UserController {
 
     // 닉네임 변경
     @PutMapping("/{id}/nickname")
-    public ResponseEntity<UserEntity> updateNickname(@PathVariable Long userId, @RequestParam UpdateDTO nicknameUpdate ) {
+    public ResponseEntity<UserEntity> updateNickname(@PathVariable Long userId, @RequestParam UserDTO nicknameUpdate ) {
         UserEntity updatedMember = userService.updateNickname(userId, nicknameUpdate);
         return ResponseEntity.ok(updatedMember);
     }
 
     // 비밀번호 변경
     @PutMapping("/{id}/password")
-    public ResponseEntity<UserEntity> changePassword(@PathVariable Long userId, @RequestParam UpdateDTO passwordUpdateDTO) {
-        UserEntity updatedUserEntity = userService.changePassword(userId, passwordUpdateDTO);
+    public ResponseEntity<UserEntity> changePassword(@PathVariable Long userId, @RequestParam UserDTO passwordUserDTO) {
+        UserEntity updatedUserEntity = userService.changePassword(userId, passwordUserDTO);
         return ResponseEntity.ok(updatedUserEntity);
     }
 
