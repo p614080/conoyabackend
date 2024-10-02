@@ -1,6 +1,7 @@
 package com.sunny.conoyabackend.service;
 
 import com.sunny.conoyabackend.domain.Favorites;
+import com.sunny.conoyabackend.dto.FavoritesDTO;
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.repository.FavoritesRepository;
@@ -8,6 +9,8 @@ import com.sunny.conoyabackend.repository.OwnerRepository;
 import com.sunny.conoyabackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +37,13 @@ public class FavoritesService {
 
         Favorites favorites = favoritesRepository.findByUserEntityAndOwnerEntity(userEntity, ownerEntity).orElseThrow();
         favoritesRepository.delete(favorites);
+    }
+
+    public List<FavoritesDTO> getFavoritesByUserEntity(Long userId){
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow();
+        List<Favorites> favorites = favoritesRepository.findByUserId(userEntity);
+        return favorites.stream()
+                .map(favorite -> new FavoritesDTO(favorite.getOwnerEntity()))
+                .toList();
     }
 }

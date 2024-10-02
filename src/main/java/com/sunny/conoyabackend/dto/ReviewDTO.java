@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewDTO {
-    private Long rno;
+    private Long review_no;
 
     private String noraebang_no;
     private String writer;
