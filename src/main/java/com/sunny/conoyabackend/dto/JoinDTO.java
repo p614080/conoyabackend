@@ -1,9 +1,9 @@
 package com.sunny.conoyabackend.dto;
 
 
-import com.sunny.conoyabackend.Role;
-import com.sunny.conoyabackend.entity.Owner;
-import com.sunny.conoyabackend.entity.User;
+
+import com.sunny.conoyabackend.entity.OwnerEntity;
+import com.sunny.conoyabackend.entity.UserEntity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class JoinRequest {
+public class JoinDTO {
 
     // 회원가입 요청처리
     @NotBlank(message = "로그인 아이디를 입력해주세요.")
@@ -35,21 +35,21 @@ public class JoinRequest {
 
 
     //비밀번호 암호화x
-    public User userEntity() {
-        return User.builder()
+    public UserEntity userEntity() {
+        return UserEntity.builder()
                 .userEmail(this.userEmail)
                 .userPassword(this.userPassword)
                 .userNickname(this.userNickname)
-                .role(Role.USER)
+
                 .build();
     }
 
-    public Owner ownerEntity() {
-        return Owner.builder()
+    public OwnerEntity ownerEntity() {
+        return OwnerEntity.builder()
                 .ownerNum(this.ownerNum)
                 .ownerPassword(this.ownerPassword)
                 .storeName(this.storeName)
-                .role(Role.OWNER)
+
                 .build();
     }
 

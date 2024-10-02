@@ -1,8 +1,9 @@
 package com.sunny.conoyabackend.service;
 
-import com.sunny.conoyabackend.dto.JoinRequest;
-import com.sunny.conoyabackend.dto.LoginRequest;
-import com.sunny.conoyabackend.entity.User;
+import com.sunny.conoyabackend.dto.JoinDTO;
+import com.sunny.conoyabackend.dto.LoginDTO;
+import com.sunny.conoyabackend.dto.UpdateDTO;
+import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,22 +38,22 @@ public class UserService {
     /**
      * 회원가입 기능
      */
-    public void join(JoinRequest userReq) {
-        userRepository.save(userReq.userEntity());
+    public void join(JoinDTO userJoin) {
+        userRepository.save(userJoin.userEntity());
     }
 
     /**
      * 로그인 기능
      */
-    public User login(LoginRequest userReq) {
-        Optional<User> optionalUser = userRepository.findByUserEmail(userReq.getUserEmail());
+    public UserEntity login(LoginDTO userReq) {
+        Optional<UserEntity> optionalUser = userRepository.findByUserEmail(userReq.getUserEmail());
 
         // userEmail와 일치하는 User 없으면 null return
         if (optionalUser.isEmpty()) {
             return null;
         }
 
-        User user = optionalUser.get();
+        UserEntity user = optionalUser.get();
 
         //찾아온 User의 password와 입력된 password가 다르면 null return
         if (!user.getUserPassword().equals(userReq.getUserPassword())) {
@@ -61,19 +62,29 @@ public class UserService {
         return user;
     }
     // 닉네임 변경
-    public User updateNickname(Long userId, String newNickname) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
-        user.setUserNickname(newNickname);
+    public UserEntity updateNickname(Long userId, UpdateDTO nicknameUpdate) {
+        // userId로 유저 엔티티 조회
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // DTO에서 받은 새 닉네임으로 엔티티의 닉네임 변경
+        user.setUserNickname(nicknameUpdate.getNewNickname());
+
+        // 변경된 엔티티를 저장하고 반환
         return userRepository.save(user);
     }
 
     // 비밀번호 변경
-    public User changePassword(Long userId, String oldPassword, String newPassword) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Member not found"));
-        if (!user.getUserPassword().equals(oldPassword)) {
+    public UserEntity changePassword(Long userId, UpdateDTO passwordUpdateDTO) {
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
+        // 기존 비밀번호 확인
+        if (!user.getUserPassword().equals(passwordUpdateDTO.getOldPassword())) {
             throw new RuntimeException("Incorrect old password");
         }
-        user.setUserPassword(newPassword);
+        // 새 비밀번호 설정
+        user.setUserPassword(passwordUpdateDTO.getNewPassword());
+
+        // 엔티티 저장 후 반환
         return userRepository.save(user);
     }
 

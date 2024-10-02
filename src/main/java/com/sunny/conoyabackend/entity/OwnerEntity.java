@@ -1,7 +1,6 @@
 package com.sunny.conoyabackend.entity;
 
 
-import com.sunny.conoyabackend.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Owner {
+public class OwnerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +28,7 @@ public class Owner {
     private String imageUrl; // 노래방이미지 URl
     private String description; // 노래방 정보
 
-    private Role role;
+
 
 
 

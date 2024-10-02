@@ -1,13 +1,13 @@
 package com.sunny.conoyabackend.repository;
 
-import com.sunny.conoyabackend.entity.User;
+import com.sunny.conoyabackend.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByUserEmail(String userEmail);
     boolean existsByUserNickname(String userNickname);
-    Optional<User> findByUserEmail(String userEmail);
+    Optional<UserEntity> findByUserEmail(String userEmail);
 
 }

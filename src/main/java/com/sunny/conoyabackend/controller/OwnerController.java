@@ -1,6 +1,6 @@
 package com.sunny.conoyabackend.controller;
 
-import com.sunny.conoyabackend.entity.Owner;
+import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +14,9 @@ public class OwnerController {
 
     // 노래방 정보 변경
     @PutMapping("/{id}/store-info")
-    public ResponseEntity<Owner> updateStoreInfo(@PathVariable Long id, @RequestBody Owner updatedOwner) {
-        Owner owner = ownerService.updateStoreInfo(id, updatedOwner.getStoreName()
-        ,updatedOwner.getDescription(), updatedOwner.getLocation(), updatedOwner.getImageUrl());
-    return ResponseEntity.ok(owner);
+    public ResponseEntity<OwnerEntity> updateStoreInfo(@PathVariable Long id, @RequestBody OwnerEntity updatedOwnerEntity) {
+        OwnerEntity ownerEntity = ownerService.updateStoreInfo(id, updatedOwnerEntity.getStoreName()
+        , updatedOwnerEntity.getDescription(), updatedOwnerEntity.getLocation(), updatedOwnerEntity.getImageUrl());
+    return ResponseEntity.ok(ownerEntity);
     }
 }

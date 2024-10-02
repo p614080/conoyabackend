@@ -1,10 +1,9 @@
 package com.sunny.conoyabackend.service;
 
 
-import com.sunny.conoyabackend.dto.JoinRequest;
-import com.sunny.conoyabackend.dto.LoginRequest;
-import com.sunny.conoyabackend.entity.Owner;
-import com.sunny.conoyabackend.entity.User;
+import com.sunny.conoyabackend.dto.JoinDTO;
+import com.sunny.conoyabackend.dto.LoginDTO;
+import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.repository.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,35 +26,35 @@ public class OwnerService {
         return ownerRepository.existsByStoreName(storeName);
     }
 
-    public void join2(JoinRequest ownerReq) {
+    public void join2(JoinDTO ownerReq) {
         ownerRepository.save(ownerReq.ownerEntity());
     }
 
-    public Owner login2(LoginRequest ownerReq) {
-        Optional<Owner> optionalOwner = ownerRepository.findByOwnerNum(ownerReq.getOwnerNum());
+    public OwnerEntity login2(LoginDTO ownerReq) {
+        Optional<OwnerEntity> optionalOwner = ownerRepository.findByOwnerNum(ownerReq.getOwnerNum());
 
         if(optionalOwner.isEmpty()) {
             return null;
         }
 
-        Owner owner = optionalOwner.get();
+        OwnerEntity ownerEntity = optionalOwner.get();
 
-        if (!owner.getOwnerPassword().equals(ownerReq.getOwnerPassword())) {
+        if (!ownerEntity.getOwnerPassword().equals(ownerReq.getOwnerPassword())) {
             return null;
         }
-        return owner;
+        return ownerEntity;
     }
 
 
 
     // 비밀번호 변경
-    public Owner changePassword(Long ownerNum, String oldPassword, String newPassword) {
-        Owner owner = ownerRepository.findById(ownerNum).orElseThrow(() -> new RuntimeException("owner not found"));
-        if (!owner.getOwnerPassword().equals(oldPassword)) {
+    public OwnerEntity changePassword(Long ownerNum, String oldPassword, String newPassword) {
+        OwnerEntity ownerEntity = ownerRepository.findById(ownerNum).orElseThrow(() -> new RuntimeException("owner not found"));
+        if (!ownerEntity.getOwnerPassword().equals(oldPassword)) {
             throw new RuntimeException("Incorrect old password");
         }
-        owner.setOwnerPassword(newPassword);
-        return ownerRepository.save(owner);
+        ownerEntity.setOwnerPassword(newPassword);
+        return ownerRepository.save(ownerEntity);
     }
 
     //  회원 탈퇴
@@ -65,10 +64,10 @@ public class OwnerService {
     }
 
     // 회원 업데이트
-    public Owner updateStoreInfo(Long ownerId, String storeName, String description, String location, String imageurl) {
+    public OwnerEntity updateStoreInfo(Long ownerId, String storeName, String description, String location, String imageurl) {
 
         // 1.저장소 정보 조회
-        Owner owner = ownerRepository.findById(ownerId)
+        OwnerEntity ownerEntity = ownerRepository.findById(ownerId)
                 .orElseThrow(() -> new RuntimeException("저장소를 찾을 수 없습니다."));
 
         // 2. 정보 수정
@@ -86,7 +85,7 @@ public class OwnerService {
 //        }
 
         // 3. 수정된 정보 저장
-        return ownerRepository.save(owner);
+        return ownerRepository.save(ownerEntity);
     }
 
 }

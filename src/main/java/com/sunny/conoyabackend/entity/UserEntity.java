@@ -1,7 +1,6 @@
 package com.sunny.conoyabackend.entity;
 
 
-import com.sunny.conoyabackend.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +25,7 @@ public class User {
     private String userPassword;
     private String userNickname;
 
-    private Role role;
+
 
     // Nickname에 대한 setter만 추가
     public void setUserNickname(String userNickname) {

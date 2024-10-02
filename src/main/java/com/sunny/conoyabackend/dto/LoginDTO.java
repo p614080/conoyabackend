@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LoginRequest {
+public class LoginDTO {
     // 로그인 요청 처리
     private String userEmail;
     private String userPassword;
