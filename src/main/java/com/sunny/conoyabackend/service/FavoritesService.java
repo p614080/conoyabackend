@@ -41,7 +41,7 @@ public class FavoritesService {
 
     public List<FavoritesDTO> getFavoritesByUserEntity(Long userId){
         UserEntity userEntity = userRepository.findById(userId).orElseThrow();
-        List<Favorites> favorites = favoritesRepository.findByUserId(userEntity);
+        List<Favorites> favorites = favoritesRepository.findByUserEntity(userEntity);
         return favorites.stream()
                 .map(favorite -> new FavoritesDTO(favorite.getOwnerEntity()))
                 .toList();
