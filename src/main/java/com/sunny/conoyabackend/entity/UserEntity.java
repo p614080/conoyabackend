@@ -32,6 +32,7 @@ public class UserEntity {
     private String userNickname;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Favorites> favorites = new ArrayList<>();
 
     // Nickname에 대한 setter만 추가
