@@ -21,6 +21,7 @@ public class OwnerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ownerId;
 
+    private String ownerEmail; // 사업자 로그인아이디
     private String ownerNum; // 사업자 번호
     private String ownerPassword; // 오너 비밀번호
     private String storeName; // 노래방 이름
@@ -28,9 +29,21 @@ public class OwnerEntity {
     private String imageUrl; // 노래방이미지 URl
     private String description; // 노래방 정보
 
-
-
-
+    // 업데이트 메서드
+    public void updateStoreInfo(String storeName, String description, String location, String imageUrl) {
+        if (storeName != null && !storeName.isEmpty()) {
+            this.storeName = storeName;
+        }
+        if (description != null && !description.isEmpty()) {
+            this.description = description;
+        }
+        if (location != null && !location.isEmpty()) {
+            this.location = location;
+        }
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            this.imageUrl = imageUrl;
+        }
+    }
 
 
     // Nickname에 대한 setter만 추가

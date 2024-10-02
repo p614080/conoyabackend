@@ -2,9 +2,7 @@ package com.sunny.conoyabackend.controller;
 
 
 import com.sunny.conoyabackend.entity.OwnerEntity;
-import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.repository.OwnerRepository;
-import com.sunny.conoyabackend.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
