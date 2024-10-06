@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FavoritesDTO {
-    private String favorites_id;
+    private Long favorites_id;
     private UserEntity userEntity;
     private OwnerEntity ownerEntity;
 
