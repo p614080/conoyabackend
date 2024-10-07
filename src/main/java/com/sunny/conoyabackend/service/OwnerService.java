@@ -10,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -129,6 +131,29 @@ public class OwnerService {
         // 사용자 비밀번호 업데이트 (암호화 없이 그대로 저장)
         owner.setOwnerPassword(temporaryPassword); // 암호화 없이 그대로 저장
         ownerRepository.save(owner);
+    }
+
+    // 점주 목록 가져오기
+    public PageResponseDTO<OwnerDTO> list(PageRequestDTO pageRequestDTO) {
+        int page = pageRequestDTO.getPage() - 1; // 페이지는 0부터 시작
+        int size = pageRequestDTO.getSize();
+
+        // 데이터베이스에서 점주 목록 가져오기
+        List<OwnerEntity> owners = ownerRepository.findAll().stream()
+                .skip(page * size) // 페이징 처리
+                .limit(size) // 페이지 크기만큼 제한
+                .collect(Collectors.toList());
+
+        // DTO 변환
+        List<OwnerDTO> ownerDTOs = owners.stream()
+                .map(owner -> new OwnerDTO(
+                        owner.getStoreName(), // getter 메서드 사용
+                        owner.getLocation()   // getter 메서드 사용
+                ))
+                .collect(Collectors.toList());
+
+        // 반환할 PageResponseDTO 생성
+        return new PageResponseDTO<>(ownerDTOs, pageRequestDTO, ownerRepository.count());
     }
 }
 

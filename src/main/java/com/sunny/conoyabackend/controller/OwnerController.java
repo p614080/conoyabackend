@@ -115,10 +115,5 @@ public class OwnerController {
     }
 
 
-    @GetMapping("/list")
-    public ResponseEntity<PageResponseDTO<OwnerDTO>> list(PageRequestDTO pageRequestDTO) {
-        PageResponseDTO<OwnerDTO> responseDTO = ownerService.list(pageRequestDTO);
-        return ResponseEntity.ok(responseDTO);
     }
 
-}
