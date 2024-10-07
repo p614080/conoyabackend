@@ -26,7 +26,7 @@ public class ReviewComment {
     @JoinColumn(name = "review_no", nullable = false)
     private Review review;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ownerId", nullable = false)
     private OwnerEntity ownerEntity;
 
