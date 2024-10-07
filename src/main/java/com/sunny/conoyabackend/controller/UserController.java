@@ -45,9 +45,9 @@ public class UserController {
             bindingResult.reject("signupFailed", e.getMessage());
 
         }
-
         return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);  // 성공 메시지와 상태 코드 반환
     }
+
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<UserEntity> login(@RequestBody LoginDTO loginDTO) {
@@ -59,18 +59,33 @@ public class UserController {
     public UserEntity logout(HttpServletRequest request, @RequestBody UserEntity user) {
         return userService.logout(request, user);
     }
+
     // 이메일 중복 체크 API
     @GetMapping("/check-email")
-    public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
-        boolean isDuplicate = userService.checkLoginEmailDuplicate(email);
-        return ResponseEntity.ok(isDuplicate);
+    public ResponseEntity<?> checkEmail(@RequestParam String userEmail) {
+        try {
+            // 중복 여부 확인
+            boolean isDuplicate = userService.checkLoginEmailDuplicate(userEmail);
+            return ResponseEntity.ok(isDuplicate);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error checking email duplication");
+        }
     }
-
     // 닉네임 중복 체크 API
     @GetMapping("/check-nickname")
-    public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
-        boolean isDuplicate = userService.checkNicknameDuplicate(nickname);
-        return ResponseEntity.ok(isDuplicate);
+    public ResponseEntity<?> checkNickname(@RequestParam String nickName) {
+        try {
+            // 유효성 검증
+            if (nickName == null || nickName.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body("Invalid store name");
+            }
+
+            // 중복 여부 확인
+            boolean isDuplicate = userService.checkNicknameDuplicate(nickName);
+            return ResponseEntity.ok(isDuplicate);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error checking store name duplication");
+        }
     }
 
     // 닉네임 변경
@@ -79,7 +94,6 @@ public class UserController {
         UserEntity updatedMember = userService.updateNickname(userId, nicknameUpdate);
         return ResponseEntity.ok(updatedMember);
     }
-
     // 비밀번호 변경
     @PutMapping("/{id}/password")
     public ResponseEntity<UserEntity> changePassword(@PathVariable Long userId, @RequestParam UserDTO passwordUserDTO) {

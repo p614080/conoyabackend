@@ -19,6 +19,7 @@ public class OwnerDTO {
     private String location;
     private String imageUrl;
 
+
     private String newPassword;
     private String oldPassword;
 }

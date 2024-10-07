@@ -24,18 +24,20 @@ public class OwnerService {
     private final OwnerRepository ownerRepository;
 
 
+//    public boolean checkLoginEmailDuplicate(LoginDTO ownerEmail) {
+//        return ownerRepository.existsByOwnerEmail(String.valueOf(ownerEmail));
+//    }
+    // 이메일 중복체크
     public boolean checkLoginEmailDuplicate(String ownerEmail) {
         return ownerRepository.existsByOwnerEmail(ownerEmail);
     }
-
-    public boolean checkLoginIdDuplicate2(String ownerEmail) {
-        return ownerRepository.existsByOwnerEmail(ownerEmail);
-    }
-
-    public boolean checkNicknameDuplicate2(String storeName) {
+    // 가게이름 중복체크
+    public boolean checkStoreNameDuplicate(String storeName) {
         return ownerRepository.existsByStoreName(storeName);
     }
 
+
+    //회원가입
     public void join2(JoinDTO ownerReq) {
         ownerRepository.save(ownerReq.ownerEntity());
     }

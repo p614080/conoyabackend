@@ -31,6 +31,7 @@ public class OwnerEntity {
     private String imageUrl; // 노래방이미지 URl
     private String description; // 노래방 정보
 
+
     @OneToMany(mappedBy = "ownerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Favorites> favorites = new ArrayList<>();
@@ -39,7 +40,7 @@ public class OwnerEntity {
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
     // 업데이트 메서드
-    public void updateStoreInfo(String storeName, String description, String location, String imageUrl, String ownerEmail) {
+    public void updateStoreInfo(String ownerNum,String storeName, String description, String location, String imageUrl) {
         if (storeName != null && !storeName.isEmpty()) {
             this.storeName = storeName;
         }
@@ -55,6 +56,7 @@ public class OwnerEntity {
         if (ownerEmail != null && !ownerEmail.isEmpty()) {
             this.ownerEmail = ownerEmail;
         }
+
     }
 
 
