@@ -25,9 +25,6 @@ public class OwnerEntity {
     private Long ownerId;
 
     @Column(nullable = false, length = 25, unique = true)
-    private String userEmail;
-
-    @Column(nullable = false, length = 25, unique = true)
     private String ownerEmail; // 사업자 로그인아이디
     private String ownerNum; // 사업자 번호
 
@@ -51,7 +48,10 @@ public class OwnerEntity {
     @Builder.Default
     private List<ReviewComment> reviewComments = new ArrayList<>();
     // 업데이트 메서드
-    public void updateStoreInfo(String ownerNum,String storeName, String description, String location, String imageUrl) {
+    public void updateStoreInfo(String ownerNum,String storeName, String description, String location, String imageUrl, String ownerEmail) {
+        if (ownerNum != null && !ownerNum.isEmpty()) {
+            this.ownerNum = ownerNum;
+        }
         if (storeName != null && !storeName.isEmpty()) {
             this.storeName = storeName;
         }
