@@ -96,8 +96,7 @@ public class OwnerService {
                 ownerDTO.getStoreName(),
                 ownerDTO.getDescription(),
                 ownerDTO.getLocation(),
-                ownerDTO.getImageUrl(),
-                ownerDTO.getOwnerEmail()
+                ownerDTO.getImageUrl()
         );
 
         // 3. 수정된 정보 저장

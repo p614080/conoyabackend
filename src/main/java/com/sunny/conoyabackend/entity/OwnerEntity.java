@@ -48,10 +48,7 @@ public class OwnerEntity {
     @Builder.Default
     private List<ReviewComment> reviewComments = new ArrayList<>();
     // 업데이트 메서드
-    public void updateStoreInfo(String ownerNum,String storeName, String description, String location, String imageUrl, String ownerEmail) {
-        if (ownerNum != null && !ownerNum.isEmpty()) {
-            this.ownerNum = ownerNum;
-        }
+    public void updateStoreInfo(String storeName, String description, String location, String imageUrl) {
         if (storeName != null && !storeName.isEmpty()) {
             this.storeName = storeName;
         }
@@ -63,9 +60,6 @@ public class OwnerEntity {
         }
         if (imageUrl != null && !imageUrl.isEmpty()) {
             this.imageUrl = imageUrl;
-        }
-        if (ownerEmail != null && !ownerEmail.isEmpty()) {
-            this.ownerEmail = ownerEmail;
         }
 
     }
