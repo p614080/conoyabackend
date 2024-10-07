@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/email")
 public class EmailController {
 
-        private final EmailService emailService;
+
         private final OwnerService ownerService;
         private final UserService userService;
 

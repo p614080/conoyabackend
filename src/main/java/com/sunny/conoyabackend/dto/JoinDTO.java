@@ -24,6 +24,7 @@ public class JoinDTO {
     @Email
     private String ownerEmail;
 
+    // 비밀번호
     @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,25}",
             message = "비밀번호는 영문, 숫자, 특수기호가 적어도 1개 이상씩 포함된 8~25자의 비밀번호여야 합니다.")
     @NotBlank(message = "비밀번호를 입력해주세요.")
@@ -33,9 +34,9 @@ public class JoinDTO {
     private String ownerPasswordCheck;
 
 
+    // 닉네임, 사업자 번호, 점포명
     @NotBlank(message = "닉네임을 입력해주세요.")
     private String userNickname;
-
     @NotBlank(message = "사업자 번호를 입력해주세요")
     private String ownerNum;
     @NotBlank(message = "가게명이 비어있습니다.")

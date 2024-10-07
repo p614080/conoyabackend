@@ -24,8 +24,14 @@ public class OwnerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ownerId;
 
+    @Column(nullable = false, length = 25, unique = true)
+    private String userEmail;
+
+    @Column(nullable = false, length = 25, unique = true)
     private String ownerEmail; // 사업자 로그인아이디
     private String ownerNum; // 사업자 번호
+
+    @Column(length = 25)
     private String ownerPassword; // 오너 비밀번호
     private String storeName; // 노래방 이름
     private String location; // 노래방위치 정보
