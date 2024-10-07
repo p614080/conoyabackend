@@ -33,6 +33,8 @@ public class OwnerEntity {
     private String storeName; // 노래방 이름
     private String location; // 노래방위치 정보
     private String imageUrl; // 노래방이미지 URl
+
+    @Lob
     private String description; // 노래방 정보
 
 
