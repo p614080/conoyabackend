@@ -1,8 +1,6 @@
 package com.sunny.conoyabackend.controller;
 
-import com.sunny.conoyabackend.dto.JoinDTO;
-import com.sunny.conoyabackend.dto.LoginDTO;
-import com.sunny.conoyabackend.dto.OwnerDTO;
+import com.sunny.conoyabackend.dto.*;
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.service.OwnerService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +20,14 @@ public class OwnerController {
 
     @Autowired
     private OwnerService ownerService;
+
+    // 점주 리스트 가져오기
+    @GetMapping("/list")
+    public ResponseEntity<PageResponseDTO<OwnerDTO>> list(PageRequestDTO pageRequestDTO) {
+        log.info(pageRequestDTO.toString());
+        PageResponseDTO<OwnerDTO> response = ownerService.list(pageRequestDTO);
+        return ResponseEntity.ok(response);
+    }
 
     // 노래방 정보 변경
     @PutMapping("/{id}/store-info")

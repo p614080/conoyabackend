@@ -1,5 +1,6 @@
 package com.sunny.conoyabackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.entity.UserEntity;
 import jakarta.persistence.*;

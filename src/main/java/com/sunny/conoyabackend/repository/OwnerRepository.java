@@ -1,5 +1,7 @@
 package com.sunny.conoyabackend.repository;
 
+import com.sunny.conoyabackend.dto.OwnerDTO;
+import com.sunny.conoyabackend.dto.PageResponseDTO;
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,4 +12,5 @@ public interface OwnerRepository extends JpaRepository<OwnerEntity, Long> {
     boolean existsByOwnerEmail(String ownerEmail);
     Optional<OwnerEntity> findByOwnerEmail(String ownerEmail);
     List<OwnerEntity> findAll();
+    PageResponseDTO<OwnerDTO> list(PageResponseDTO pageResponseDTO);
 }

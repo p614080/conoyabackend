@@ -6,9 +6,12 @@ import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.repository.OwnerRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import java.util.Optional;
 import java.util.Random;
@@ -24,6 +27,7 @@ public class OwnerService {
 //    public boolean checkLoginEmailDuplicate(LoginDTO ownerEmail) {
 //        return ownerRepository.existsByOwnerEmail(String.valueOf(ownerEmail));
 //    }
+
     // 이메일 중복체크
     public boolean checkLoginEmailDuplicate(String ownerEmail) {
         return ownerRepository.existsByOwnerEmail(ownerEmail);
@@ -130,6 +134,31 @@ public class OwnerService {
         owner.setOwnerPassword(temporaryPassword); // 암호화 없이 그대로 저장
         ownerRepository.save(owner);
     }
+
+    // 점수 리스트 가져오기
+    public PageResponseDTO<OwnerDTO> list(PageRequestDTO pageRequestDTO) {
+        int page = pageRequestDTO.getPage() - 1; // 페이지 인덱스 조정
+        int size = pageRequestDTO.getSize();
+
+        // 데이터베이스에서 점주 목록 가져오기
+        List<OwnerEntity> owners = ownerRepository.findAll().stream()
+                .skip(page * size) // 페이징 처리
+                .limit(size) // 페이지 크기만큼 제한
+                .collect(Collectors.toList());
+
+        // DTO 변환
+        List<OwnerDTO> ownerDTOs = owners.stream()
+                .map(owner -> new OwnerDTO(
+                        owner.getStoreName(), // getter 메서드 사용
+                        owner.getLocation()   // getter 메서드 사용
+                ))
+                .collect(Collectors.toList());
+
+        // PageResponseDTO 생성
+        return new PageResponseDTO<>(ownerDTOs, pageRequestDTO, ownerRepository.count());
+    }
+
+
 }
 
 
