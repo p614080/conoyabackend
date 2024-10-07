@@ -3,6 +3,7 @@ package com.sunny.conoyabackend.controller;
 import com.sunny.conoyabackend.dto.LoginDTO;
 import com.sunny.conoyabackend.dto.OwnerDTO;
 import com.sunny.conoyabackend.entity.OwnerEntity;
+import com.sunny.conoyabackend.repository.UserRepository;
 import com.sunny.conoyabackend.service.OwnerService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/owners")
 public class OwnerController {
+
 
     @Autowired
     private OwnerService ownerService;
@@ -39,6 +41,12 @@ public class OwnerController {
     @PostMapping("/logout")
     public OwnerEntity logout(HttpServletRequest request, @RequestBody OwnerEntity owner) {
         return ownerService.logout(request, owner);
+    }
+    // 이메일 중복 체크 API
+    @GetMapping("/check-email")
+    public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+        boolean isDuplicate = ownerService.checkLoginEmailDuplicate(email);
+        return ResponseEntity.ok(isDuplicate);
     }
 
     // 비밀번호 변경
