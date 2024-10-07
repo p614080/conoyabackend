@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+
+
 @Slf4j
 @RestController
 @RequestMapping("/owners")
@@ -92,7 +94,7 @@ public class OwnerController {
 
 
     // 닉네임 변경
-    @PutMapping("/{id}/storename")
+    @PutMapping("/{id}/store-name")
     public ResponseEntity<OwnerEntity> updateNickname(@PathVariable Long userId, @RequestParam OwnerDTO storeName ) {
         OwnerEntity updateStoreInfo = ownerService.updateStoreInfo(userId, storeName);
         return ResponseEntity.ok(updateStoreInfo);
@@ -110,6 +112,13 @@ public class OwnerController {
     public ResponseEntity<Void> deleteMember (@PathVariable Long ownerId) {
         ownerService.deleteMember(ownerId);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/list")
+    public ResponseEntity<PageResponseDTO<OwnerDTO>> list(PageRequestDTO pageRequestDTO) {
+        PageResponseDTO<OwnerDTO> responseDTO = ownerService.list(pageRequestDTO);
+        return ResponseEntity.ok(responseDTO);
     }
 
 }
