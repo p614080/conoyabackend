@@ -4,6 +4,8 @@ import com.sunny.conoyabackend.dto.ReviewDTO;
 import com.sunny.conoyabackend.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,6 +20,11 @@ public class ReviewController {
     @GetMapping("/{review_no}")
     public ReviewDTO get(@PathVariable(name="review_no") Long review_no){
         return service.get(review_no);
+    }
+
+    @GetMapping("/{ownerId/reviews")
+    public Page<ReviewDTO> list(Pageable pageable) {
+        return service.getReviews(pageable);
     }
 
     @PostMapping("/")
