@@ -18,26 +18,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
-class ReviewCommentRepositoryTests {
-    private static final Logger log = LoggerFactory.getLogger(FavoritesRepositoryTests.class);
+public class ReviewCommentRepositoryTests {
+
+    private static final Logger log = LoggerFactory.getLogger(ReviewRepositoryTests.class);
 
     @Autowired
-    private ReviewRepository reviewRepository;
-    @Autowired
-    private ReviewCommentRepository reviewCommentRepository;
+    private ReviewRepository reviewRepository; // ReviewRepository 주입
 
-    // Review를 DTO로 변환하는 메서드
-    public ReviewDTO convertToDTO(Review review) {
-        return ReviewDTO.builder()
-                .reviewNo(review.getReviewNo())
-                .ownerId(review.getOwnerEntity().getOwnerId())
-                .userId(review.getUserEntity().getUserId())
-                .rating(review.getRating())
-                .reviewContent(review.getReviewContent())
-                .dueDate(review.getDueDate())
-                .build();
-    }
+    @Autowired
+    private ReviewCommentRepository reviewCommentRepository; // ReviewCommentRepository 주입
 
     @Test
     @DisplayName("ownerId 1번의 모든 리뷰 조회 후 첫번째 리뷰의 댓글 처리")
@@ -45,6 +34,7 @@ class ReviewCommentRepositoryTests {
         // ownerId가 1번인 점주의 모든 리뷰 조회
         List<Review> reviews = reviewRepository.findAllByOwnerEntity_OwnerId(1L);
 
+        // 리뷰가 존재하지 않으면 예외를 던지거나 로깅
         if (reviews.isEmpty()) {
             log.info("ownerId가 1번인 점주에게 등록된 리뷰가 없습니다.");
             return;
@@ -52,25 +42,28 @@ class ReviewCommentRepositoryTests {
 
         log.info("==== ownerId 1번 점주의 리뷰 목록 ====");
 
-        // 리뷰를 DTO로 변환하여 출력
+        // 모든 리뷰를 순회하며 출력
         reviews.forEach(review -> {
-            ReviewDTO reviewDTO = convertToDTO(review);
-            log.info("Rating: {}, ReviewContent: {}, UserId: {}, DueDate: {}",
-                    reviewDTO.getRating(),
-                    reviewDTO.getReviewContent(),
-                    reviewDTO.getUserId(),
-                    reviewDTO.getDueDate());
+            log.info("Rating: {}, ReviewContent: {}, Nickname: {}, DueDate: {}",
+                    review.getRating(),
+                    review.getReviewContent(),
+                    review.getUserEntity().getUserNickname(),
+                    review.getDueDate());
         });
 
         // 첫 번째 리뷰 가져오기
         Review firstReview = reviews.get(0);
 
+        // 첫 번째 리뷰에 연결된 댓글이 있는지 확인
         ReviewComment reviewComment = reviewCommentRepository.findByReview_ReviewNo(firstReview.getReviewNo());
 
         if (reviewComment != null) {
-            reviewCommentRepository.delete(reviewComment);
+            // 댓글이 있으면 삭제
+            reviewCommentRepository.deleteById(1L);
+            reviewCommentRepository.flush();
             log.info("첫 번째 리뷰의 댓글이 삭제되었습니다.");
         } else {
+            // 댓글이 없으면 새로운 댓글 등록
             ReviewComment newComment = ReviewComment.builder()
                     .comment("감사합니다 더욱 노력하는 " + firstReview.getOwnerEntity().getStoreName() + " 노래방이 되겠습니다")
                     .review(firstReview)
