@@ -15,7 +15,7 @@ import java.util.Map;
 public class ReviewCommentController {
     private final ReviewCommentService reviewCommentService;
 
-    // 댓글 등록
+    // 리뷰 댓글 등록
     @PostMapping("/")
     public Map<String, Long> register(@RequestBody ReviewCommentDTO reviewCommentDTO) {
         Long commentNo = reviewCommentService.register(reviewCommentDTO);
@@ -28,7 +28,7 @@ public class ReviewCommentController {
         return reviewCommentService.get(reviewNo);
     }
 
-    // 댓글 삭제
+    // 리뷰 댓글 삭제
     @DeleteMapping("/{commentNo}")
     public Map<String, String> remove(@PathVariable Long commentNo) {
         reviewCommentService.remove(commentNo);
