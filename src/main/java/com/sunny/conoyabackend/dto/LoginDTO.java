@@ -14,7 +14,6 @@ public class LoginDTO {
     private String userPassword;
 
 
-
     private String ownerEmail;
     private String ownerPassword;
 }

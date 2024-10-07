@@ -30,7 +30,7 @@ public class UserController {
         userService.join(joinDTO);  // 회원가입 서비스 호출
         // 비밀번호 일치 검증
         if (!joinDTO.getUserPassword().equals(joinDTO.getUserPasswordCheck())) {
-            bindingResult.rejectValue("password", "passwordCheck",
+            bindingResult.rejectValue("userPassword", "userPasswordCheck",
                     "2개의 패스워드가 일치하지 않습니다.");
         }
         // 이미 등록된 사용자

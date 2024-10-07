@@ -3,7 +3,6 @@ package com.sunny.conoyabackend.service;
 
 import com.sunny.conoyabackend.dto.*;
 import com.sunny.conoyabackend.entity.OwnerEntity;
-import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.repository.OwnerRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
