@@ -32,4 +32,9 @@ public class ReviewComment {
 
     @Column(nullable = false)
     private LocalDateTime commentDate;
+
+    public void setReview(Review review) {
+        this.review = review;
+    }
+
 }
