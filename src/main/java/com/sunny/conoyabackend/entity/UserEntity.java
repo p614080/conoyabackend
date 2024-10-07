@@ -2,6 +2,7 @@ package com.sunny.conoyabackend.entity;
 
 
 import com.sunny.conoyabackend.domain.Favorites;
+import com.sunny.conoyabackend.domain.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +35,10 @@ public class UserEntity {
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Favorites> favorites = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Review> reviews = new ArrayList<>();
 
     // Nickname에 대한 setter만 추가
     public void setUserNickname(String userNickname) {

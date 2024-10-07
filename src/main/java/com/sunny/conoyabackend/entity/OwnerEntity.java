@@ -2,6 +2,7 @@ package com.sunny.conoyabackend.entity;
 
 
 import com.sunny.conoyabackend.domain.Favorites;
+import com.sunny.conoyabackend.domain.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,10 @@ public class OwnerEntity {
     @OneToMany(mappedBy = "ownerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Favorites> favorites = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ownerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Review> reviews = new ArrayList<>();
     // 업데이트 메서드
     public void updateStoreInfo(String storeName, String description, String location, String imageUrl, String ownerEmail) {
         if (storeName != null && !storeName.isEmpty()) {
