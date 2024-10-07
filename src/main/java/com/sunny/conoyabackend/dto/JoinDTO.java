@@ -59,7 +59,6 @@ public class JoinDTO {
                 .ownerNum(this.ownerNum)
                 .ownerPassword(this.ownerPassword)
                 .storeName(this.storeName)
-
                 .build();
     }
 
