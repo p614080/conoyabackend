@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OwnerDTO {
 
-
+    private String ownerId;
     private String ownerEmail;
     private String storeName;
     private String description;
