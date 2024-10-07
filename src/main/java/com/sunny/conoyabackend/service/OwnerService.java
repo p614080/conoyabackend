@@ -23,6 +23,11 @@ public class OwnerService {
 
     private final OwnerRepository ownerRepository;
 
+
+    public boolean checkLoginEmailDuplicate(String ownerEmail) {
+        return ownerRepository.existsByOwnerEmail(ownerEmail);
+    }
+
     public boolean checkLoginIdDuplicate2(String ownerEmail) {
         return ownerRepository.existsByOwnerEmail(ownerEmail);
     }
