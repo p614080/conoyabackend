@@ -1,5 +1,7 @@
 package com.sunny.conoyabackend.controller;
 
+import com.sunny.conoyabackend.dto.PageRequestDTO;
+import com.sunny.conoyabackend.dto.PageResponseDTO;
 import com.sunny.conoyabackend.dto.ReviewDTO;
 import com.sunny.conoyabackend.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +25,9 @@ public class ReviewController {
     }
 
     @GetMapping("/{ownerId}/reviews")
-    public Page<ReviewDTO> list(Pageable pageable) {
-        return service.getReviews(pageable);
+    public PageResponseDTO<ReviewDTO> list(PageRequestDTO pageRequestDTO, Long ownerId) {
+        log.info(pageRequestDTO.toString());
+        return service.list(pageRequestDTO, ownerId);
     }
 
     @PostMapping("/")

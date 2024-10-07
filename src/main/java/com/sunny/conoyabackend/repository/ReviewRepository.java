@@ -14,4 +14,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("SELECT r FROM Review r JOIN FETCH r.userEntity WHERE r.ownerEntity.ownerId = :ownerId")
     List<Review> findAllByOwnerEntity_OwnerId(@Param("ownerId") Long ownerId);
+    Page<Review> findAllByOwnerEntity_OwnerId(Long ownerId, Pageable pageable);
 }
