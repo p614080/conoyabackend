@@ -1,5 +1,6 @@
 package com.sunny.conoyabackend.service;
 
+import com.sunny.conoyabackend.dto.EmailDTO;
 import com.sunny.conoyabackend.dto.JoinDTO;
 import com.sunny.conoyabackend.dto.LoginDTO;
 import com.sunny.conoyabackend.dto.UserDTO;
@@ -12,13 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-
+    private final EmailService emailService;
     /*
      * LoginEmail 중복체크
      * 회원가입 기능 구현 시 사용
@@ -103,5 +105,40 @@ public class UserService {
     //     // 회원 탈퇴
     public void deleteMember(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+
+    // 임시 비밀번호 생성
+    public String generateTemporaryPassword() {
+        int length = 8;  // 임시 비밀번호 길이 설정
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder password = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            password.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return password.toString();
+    }
+
+    // 일반 회원 비밀번호 찾기
+    public void sendTemporaryPassword(String userEmail) {
+        // 사용자 조회
+        UserEntity user = userRepository.findByUserEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일을 가진 사용자가 없습니다."));
+
+        // 임시 비밀번호 생성
+        String temporaryPassword = generateTemporaryPassword();
+
+        // 이메일로 임시 비밀번호 전송
+        EmailDTO emailMessage = EmailDTO.builder()
+                .to(userEmail)
+                .subject("임시 비밀번호 발급 안내")
+                .message("임시 비밀번호: " + temporaryPassword + "\n로그인 후 비밀번호를 변경하세요.")
+                .build();
+        emailService.sendMail(emailMessage);
+
+        // 사용자 비밀번호 업데이트 (암호화 없이 그대로 저장)
+        user.setUserPassword(temporaryPassword); // 암호화 없이 그대로 저장
+        userRepository.save(user);
     }
 }

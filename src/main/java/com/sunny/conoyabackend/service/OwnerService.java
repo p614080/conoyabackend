@@ -1,10 +1,7 @@
 package com.sunny.conoyabackend.service;
 
 
-import com.sunny.conoyabackend.dto.JoinDTO;
-import com.sunny.conoyabackend.dto.LoginDTO;
-import com.sunny.conoyabackend.dto.OwnerDTO;
-import com.sunny.conoyabackend.dto.UserDTO;
+import com.sunny.conoyabackend.dto.*;
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.repository.OwnerRepository;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -22,7 +20,7 @@ import java.util.Optional;
 public class OwnerService {
 
     private final OwnerRepository ownerRepository;
-
+    private final EmailService emailService;
 
 //    public boolean checkLoginEmailDuplicate(LoginDTO ownerEmail) {
 //        return ownerRepository.existsByOwnerEmail(String.valueOf(ownerEmail));
@@ -106,4 +104,39 @@ public class OwnerService {
         return ownerRepository.save(ownerEntity);
     }
 
+    // 임시 비밀번호 생성
+    public String generateTemporaryPassword() {
+        int length = 8;  // 임시 비밀번호 길이 설정
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder password = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            password.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return password.toString();
+    }
+
+    // 사업자 비밀번호 찾기
+    public void sendTemporaryPassword(String ownerEmail) {
+        // 사용자 조회
+        OwnerEntity owner = ownerRepository.findByOwnerEmail(ownerEmail)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일을 가진 사용자가 없습니다."));
+
+        // 임시 비밀번호 생성
+        String temporaryPassword = generateTemporaryPassword();
+
+        // 이메일로 임시 비밀번호 전송
+        EmailDTO emailMessage = EmailDTO.builder()
+                .to(ownerEmail)
+                .subject("임시 비밀번호 발급 안내")
+                .message("임시 비밀번호: " + temporaryPassword + "\n로그인 후 비밀번호를 변경하세요.")
+                .build();
+        emailService.sendMail(emailMessage);
+
+        // 사용자 비밀번호 업데이트 (암호화 없이 그대로 저장)
+        owner.setOwnerPassword(temporaryPassword); // 암호화 없이 그대로 저장
+        ownerRepository.save(owner);
+    }
 }
+
+

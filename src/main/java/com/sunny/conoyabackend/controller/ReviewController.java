@@ -22,7 +22,7 @@ public class ReviewController {
         return service.get(review_no);
     }
 
-    @GetMapping("/{ownerId/reviews")
+    @GetMapping("/{ownerId}/reviews")
     public Page<ReviewDTO> list(Pageable pageable) {
         return service.getReviews(pageable);
     }
