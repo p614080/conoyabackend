@@ -1,17 +1,23 @@
 package com.sunny.conoyabackend.service;
 
+import com.sunny.conoyabackend.dto.PageRequestDTO;
+import com.sunny.conoyabackend.dto.PageResponseDTO;
 import com.sunny.conoyabackend.dto.ReviewDTO;
 
 import com.sunny.conoyabackend.repository.ReviewRepository;
 import com.sunny.conoyabackend.domain.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -41,9 +47,25 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public Page<ReviewDTO> getReviews(Pageable pageable) {
-        Page<Review> reviews = reviewRepository.findAll(pageable);
-        return reviews.map(review -> modelMapper.map(review, ReviewDTO.class));
+    public PageResponseDTO<ReviewDTO> list(PageRequestDTO pageRequestDTO, Long ownerId){
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage() - 1,
+                pageRequestDTO.getSize(),
+                Sort.by("reviewNo").descending()
+        );
+        Page<Review> result = reviewRepository.findAllByOwnerEntity_OwnerId(ownerId, pageable);
+        List<ReviewDTO> dtoList = result.getContent().stream().map((todo)->modelMapper.map(todo, ReviewDTO.class))
+                .collect(Collectors.toList());
+        List<Review> tmps = result.getContent();
+
+        Review.builder().build();
+        long totalCount = result.getTotalElements();
+        PageResponseDTO pageResponseDTO = PageResponseDTO.<ReviewDTO>withAll()
+                .dtoList(dtoList)
+                .pageRequestDTO(pageRequestDTO)
+                .totalCount(totalCount)
+                .build();
+        return pageResponseDTO;
     }
 
 }
