@@ -28,11 +28,6 @@ public class OwnerService {
     public boolean checkLoginEmailDuplicate(String ownerEmail) {
         return ownerRepository.existsByOwnerEmail(ownerEmail);
     }
-    // 가게이름 중복체크
-    public boolean checkStoreNameDuplicate(String storeName) {
-        return ownerRepository.existsByStoreName(storeName);
-    }
-
 
     //회원가입
     public void join2(JoinDTO ownerReq) {

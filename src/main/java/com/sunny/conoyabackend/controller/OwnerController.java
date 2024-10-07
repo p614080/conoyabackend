@@ -83,22 +83,7 @@ public class OwnerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error checking email duplication");
         }
     }
-    // 가게이름 중복 체크 API
-    @GetMapping("/check-storename")
-    public ResponseEntity<?> checkStoreName(@RequestParam String storeName) {
-        try {
-            // 유효성 검증
-            if (storeName == null || storeName.trim().isEmpty()) {
-                return ResponseEntity.badRequest().body("Invalid store name");
-            }
 
-            // 중복 여부 확인
-            boolean isDuplicate = ownerService.checkStoreNameDuplicate(storeName);
-            return ResponseEntity.ok(isDuplicate);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error checking store name duplication");
-        }
-    }
 
     // 닉네임 변경
     @PutMapping("/{id}/storename")
