@@ -1,13 +1,12 @@
 package com.sunny.conoyabackend.infomation;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Builder
@@ -22,12 +21,17 @@ public class Room {
 
     private int roomNumber; // 방 번호
     private boolean useroom; // 방 사용 여부
+    private int roomposition; // 방 최대 인원
     private int remainingTime; // 남은 시간 (분 단위)
     private int remainingSongs; // 남은 곡 수
 
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images; // 연관된 이미지 목록
+
     // 업데이트 메서드
-    public void updateRoomInfo(boolean useroom, int remainingTime, int remainingSongs) {
+    public void updateRoomInfo(boolean useroom, int roomposition, int remainingTime, int remainingSongs) {
         this.useroom = useroom;
+        this.roomposition = roomposition;
         this.remainingTime = remainingTime;
         this.remainingSongs = remainingSongs;
     }
