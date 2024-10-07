@@ -7,11 +7,16 @@ import com.sunny.conoyabackend.repository.OwnerRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -21,6 +26,8 @@ public class OwnerService {
     private final OwnerRepository ownerRepository;
     private final EmailService emailService;
 
+    
+    
 //    public boolean checkLoginEmailDuplicate(LoginDTO ownerEmail) {
 //        return ownerRepository.existsByOwnerEmail(String.valueOf(ownerEmail));
 //    }
@@ -129,6 +136,34 @@ public class OwnerService {
         // 사용자 비밀번호 업데이트 (암호화 없이 그대로 저장)
         owner.setOwnerPassword(temporaryPassword); // 암호화 없이 그대로 저장
         ownerRepository.save(owner);
+    }
+
+
+    public PageResponseDTO<OwnerDTO> list(PageRequestDTO pageRequestDTO) {
+        // PageRequestDTO로부터 Pageable 객체 생성
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage() - 1, // 페이지는 0부터 시작하므로 -1
+                pageRequestDTO.getSize()
+        );
+
+        // 데이터베이스에서 페이징 처리된 OwnerEntity 조회
+        Page<OwnerEntity> result = ownerRepository.findAll(pageable);
+
+        // OwnerEntity -> OwnerDTO로 변환
+        List<OwnerDTO> dtoList = result.getContent().stream()
+                .map(owner -> OwnerDTO.builder()
+                        .ownerEmail(owner.getOwnerEmail())
+                        .storeName(owner.getStoreName())
+                        .location(owner.getLocation())
+                        .build())
+                .collect(Collectors.toList());
+
+        // 총 레코드 수와 함께 PageResponseDTO로 반환
+        return PageResponseDTO.<OwnerDTO>withAll()
+                .dtoList(dtoList)
+                .pageRequestDTO(pageRequestDTO)
+                .totalCount(result.getTotalElements())
+                .build();
     }
 }
 
