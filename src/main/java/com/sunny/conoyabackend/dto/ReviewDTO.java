@@ -15,12 +15,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewDTO {
-    private Long review_no;
+    private Long reviewNo;
 
     private Long ownerId;
     private Long userId;
     private short rating;
-    private String review_content;
+    private String reviewContent;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;

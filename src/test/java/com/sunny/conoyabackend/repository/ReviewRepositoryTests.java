@@ -29,7 +29,7 @@ class ReviewRepositoryTests {
     @DisplayName("리파지토리 Insert 테스트")
     public void test_insert_repository(){
         Review review = Review.builder()
-                .noraebang_no(100L)
+                .ownerEntity(100L)
                 .writer("성찬")
                 .rating((short) 3)
                 .review_content("시설이 생각보다 어중간하네요")

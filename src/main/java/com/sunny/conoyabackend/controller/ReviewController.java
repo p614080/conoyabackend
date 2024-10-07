@@ -17,9 +17,9 @@ import java.util.Map;
 public class ReviewController {
     private final ReviewService service;
 
-    @GetMapping("/{review_no}")
-    public ReviewDTO get(@PathVariable(name="review_no") Long review_no){
-        return service.get(review_no);
+    @GetMapping("/{reviewNo}")
+    public ReviewDTO get(@PathVariable(name="reviewNo") Long reviewNo){
+        return service.get(reviewNo);
     }
 
     @GetMapping("/{ownerId/reviews")
@@ -29,13 +29,13 @@ public class ReviewController {
 
     @PostMapping("/")
     public Map<String, Long> register(@RequestBody ReviewDTO reviewDTO){
-        Long review_no = service.register(reviewDTO);
-        return Map.of("review_no", review_no);
+        Long reviewNo = service.register(reviewDTO);
+        return Map.of("reviewNo", reviewNo);
     }
 
-    @DeleteMapping("/{review_no}")
-    public Map<String, String> remove(@PathVariable(name = "review_no") Long review_no){
-        service.remove(review_no);
+    @DeleteMapping("/{reviewNo}")
+    public Map<String, String> remove(@PathVariable(name = "reviewNo") Long reviewNo){
+        service.remove(reviewNo);
         return Map.of("result", "SUCCESS");
     }
 }
