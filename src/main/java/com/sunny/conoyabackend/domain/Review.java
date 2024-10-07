@@ -29,4 +29,7 @@ public class Review {
     private short rating;
     private String review_content;
     private LocalDate dueDate;
+
+    @OneToOne(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ReviewComment reviewComment;
 }
