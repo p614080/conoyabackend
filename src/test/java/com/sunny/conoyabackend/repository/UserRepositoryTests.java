@@ -2,12 +2,15 @@ package com.sunny.conoyabackend.repository;
 
 import com.sunny.conoyabackend.dto.UserDTO;
 import com.sunny.conoyabackend.entity.UserEntity;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class UserRepositoryTests {
@@ -32,7 +35,7 @@ public class UserRepositoryTests {
     public void userJoin() {
 
         UserDTO userDTO = new UserDTO();
-        userDTO.setUserEmail("test1@eamil.com");
+        userDTO.setUserEmail("test4@eamil.com");
         userDTO.setUserPassword("1234");
         userDTO.setUserNickname("하이용");
 
@@ -47,25 +50,27 @@ public class UserRepositoryTests {
 
         userRepository.save(userEntity);
     }
+
     @Test
-    @DisplayName("일반회원 회원 수정")
-    public void updateUser(){
+    @DisplayName("일반회원 정보 수정")
+    @Transactional
+    public void updateUser() {
         // db에서 가져온 값이 있으면 UserEntity 타입으로 가져온다.
-        Optional<UserEntity> result = userRepository.findByUserEmail("test@email.com");
-        UserEntity userEntity = result.orElseThrow();
+        Optional<UserEntity> result = userRepository.findByUserEmail("test@eamil.com");
+        UserEntity userEntity = result.orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         // DTO를 만들고 업데이트 할 값을 넣어준다.
         UserDTO userDTO = new UserDTO();
         userDTO.setUserPassword("5678");
-        userDTO.setUserNickname("안녕하세요");
+        userDTO.setUserNickname("안녕");
 
-        //Entity에 DTO 값을 넣어준다.
+        // Entity에 DTO 값을 넣어준다.
         userEntity.setUserNickname(userDTO.getUserNickname());
         userEntity.setUserPassword(userDTO.getUserPassword());
-
-        //리포지토리에서 엔터티 save를 한다.
+        // 리포지토리에서 엔티티 save를 한다.
         userRepository.save(userEntity);
     }
+
 
     @Test
     @DisplayName("일반회원 탈퇴")
