@@ -66,7 +66,7 @@ class OwnerServiceTests {
 
 
     @Test
-    @DisplayName("초기 소유자 엔티티 생성 및 저장")
+    @DisplayName("초기 소유자 생성 테스트")
     public void test_createOwner() {
         OwnerEntity newOwner = OwnerEntity.builder()
                 .ownerEmail("new@example.com")
@@ -88,13 +88,13 @@ class OwnerServiceTests {
     }
 
     @Test
-    @DisplayName("초기 소유자 엔티티 생성 및 저장")
+    @DisplayName("소유자 정보 수정 테스트")
     public void test_updateStoreInfo() {
         OwnerEntity initialOwner = OwnerEntity.builder()
                 .ownerEmail("initial@example.com")
                 .ownerNum("1234567890")
                 .ownerPassword("password123")
-                .storeName("Initial Karaoke")
+                .storeName("Initial conoya")
                 .location("Initial Location")
                 .imageUrl("http://example.com/initial.jpg")
                 .description("Initial description")
@@ -103,7 +103,7 @@ class OwnerServiceTests {
 
         // 업데이트할 정보가 담긴 DTO 생성
         OwnerDTO updateInfo = OwnerDTO.builder()
-                .storeName("Updated Karaoke")
+                .storeName("Updated conoya")
                 .location("Updated Location")
                 .description("Updated description")
                 .imageUrl("http://example.com/updated.jpg")
@@ -113,20 +113,20 @@ class OwnerServiceTests {
         OwnerEntity updatedOwner = ownerService.updateStoreInfo(initialOwner.getOwnerId(), updateInfo);
 
         // 업데이트 결과 검증
-        assertThat(updatedOwner.getStoreName()).isEqualTo("Updated Karaoke");
+        assertThat(updatedOwner.getStoreName()).isEqualTo("Updated conoya");
         assertThat(updatedOwner.getLocation()).isEqualTo("Updated Location");
         assertThat(updatedOwner.getDescription()).isEqualTo("Updated description");
         assertThat(updatedOwner.getImageUrl()).isEqualTo("http://example.com/updated.jpg");
     }
 
     @Test
-    @DisplayName("ID를 이용하여 소유자 정보 조회")
+    @DisplayName("소유자 조회 테스트")
     public void test_readOwnerInfo() {
         OwnerEntity owner = OwnerEntity.builder()
                 .ownerEmail("read@example.com")
                 .ownerNum("1122334455")
                 .ownerPassword("readpassword123")
-                .storeName("Read Karaoke")
+                .storeName("Read conoya")
                 .location("Read Location")
                 .imageUrl("http://example.com/read.jpg")
                 .description("Read description")
@@ -137,20 +137,20 @@ class OwnerServiceTests {
 
         // 조회 결과 검증
         assertThat(retrievedOwner).isPresent();
-        assertThat(retrievedOwner.get().getStoreName()).isEqualTo("Read Karaoke");
+        assertThat(retrievedOwner.get().getStoreName()).isEqualTo("Read conoya");
         assertThat(retrievedOwner.get().getLocation()).isEqualTo("Read Location");
         assertThat(retrievedOwner.get().getImageUrl()).isEqualTo("http://example.com/read.jpg");
         assertThat(retrievedOwner.get().getDescription()).isEqualTo("Read description");
     }
 
     @Test
-    @DisplayName("초기 소유자 엔티티 생성 및 저장")
+    @DisplayName("소유자 삭제 테스트 ")
     public void test_deleteOwner() {
         OwnerEntity owner = OwnerEntity.builder()
                 .ownerEmail("delete@example.com")
                 .ownerNum("5566778899")
                 .ownerPassword("deletepassword123")
-                .storeName("Delete Karaoke")
+                .storeName("Delete conoya")
                 .location("Delete Location")
                 .imageUrl("http://example.com/delete.jpg")
                 .description("Delete description")
