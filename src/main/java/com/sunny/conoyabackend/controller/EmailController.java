@@ -43,7 +43,7 @@ public class EmailController {
     ) {
         try {
             // 일반 회원에게 임시 비밀번호 발송
-            userService.sendTemporaryPassword(userEmail);
+            userService.generateTemporaryPassword();
             return ResponseEntity.ok("임시 비밀번호가 일반 회원 이메일로 전송되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("일반 회원 이메일로 비밀번호 발송 중 오류가 발생했습니다.");
