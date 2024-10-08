@@ -82,7 +82,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // DTO에서 받은 새 닉네임으로 엔티티의 닉네임 변경
-        user.setUserNickname(nicknameUpdate.getNewNickname());
+        user.setUserNickname(nicknameUpdate.getUserNickname());
 
         // 변경된 엔티티를 저장하고 반환
         return userRepository.save(user);
@@ -92,11 +92,11 @@ public class UserService {
     public UserEntity changePassword(Long userId, UserDTO passwordUserDTO) {
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("user not found"));
         // 기존 비밀번호 확인
-        if (!user.getUserPassword().equals(passwordUserDTO.getOldPassword())) {
+        if (!user.getUserPassword().equals(passwordUserDTO.getUserPassword())) {
             throw new RuntimeException("Incorrect old password");
         }
         // 새 비밀번호 설정
-        user.setUserPassword(passwordUserDTO.getNewPassword());
+        user.setUserPassword(passwordUserDTO.getUserPassword());
 
         // 엔티티 저장 후 반환
         return userRepository.save(user);

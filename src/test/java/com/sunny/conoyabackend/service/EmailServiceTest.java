@@ -37,7 +37,8 @@ public class EmailServiceTest {
                 .build();
 
         // 이메일 발송
-        emailService.sendMail(emailDTO);
+//        emailService.sendMail(emailDTO);
+
 
         // JavaMailSender의 send 메서드가 호출되었는지 확인
         verify(javaMailSender, times(1)).send(any(MimeMessage.class));

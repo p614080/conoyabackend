@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Image {
+public class  Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
