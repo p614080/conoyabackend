@@ -22,8 +22,7 @@ public class ReviewComment {
     @Column(nullable = false)
     private String comment;
 
-    @OneToOne
-    @JoinColumn(name = "review_no", nullable = false)
+    @OneToOne(mappedBy = "reviewComment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Review review;
 
     @ManyToOne(fetch = FetchType.EAGER)

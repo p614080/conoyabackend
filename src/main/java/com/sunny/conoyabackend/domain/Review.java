@@ -31,6 +31,5 @@ public class Review {
     private String reviewContent;
     private LocalDate dueDate;
 
-    @OneToOne(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ReviewComment reviewComment;
+
 }
