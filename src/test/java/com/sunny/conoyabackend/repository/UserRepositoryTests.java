@@ -53,7 +53,7 @@ public class UserRepositoryTests {
         Optional<UserEntity> result = userRepository.findByUserEmail("test@email.com");
         UserDTO userDTO = new UserDTO();
         userDTO.setUserPassword("5678");
-        userDTO.setUserNickname("바보얌");
+        userDTO.setUserNickname("안녕하세오");
 
         result.orElseThrow();
 
