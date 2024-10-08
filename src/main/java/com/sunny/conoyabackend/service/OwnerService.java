@@ -65,11 +65,11 @@ public class OwnerService {
     public OwnerEntity changePassword(Long ownerId, OwnerDTO passwordOwnerDTO) {
         OwnerEntity owner = ownerRepository.findById(ownerId).orElseThrow(() -> new RuntimeException("user not found"));
         // 기존 비밀번호 확인
-        if (!owner.getOwnerPassword().equals(passwordOwnerDTO.getOldPassword())) {
+        if (!owner.getOwnerPassword().equals(passwordOwnerDTO.getOwnerPassword())) {
             throw new RuntimeException("Incorrect old password");
         }
         // 새 비밀번호 설정
-        owner.setOwnerPassword(passwordOwnerDTO.getNewPassword());
+        owner.setOwnerPassword(passwordOwnerDTO.getOwnerNewPassword());
 
         // 엔티티 저장 후 반환
         return ownerRepository.save(owner);

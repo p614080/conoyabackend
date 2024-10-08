@@ -18,7 +18,7 @@ public class OwnerDTO {
     private String imageUrl;
 
 
-    private String newPassword;
-    private String oldPassword;
+    private String ownerNewPassword;
+    private String ownerPassword;
 
 }

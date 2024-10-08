@@ -96,7 +96,7 @@ public class UserService {
             throw new RuntimeException("Incorrect old password");
         }
         // 새 비밀번호 설정
-        user.setUserPassword(passwordUserDTO.getUserPassword());
+        user.setUserPassword(passwordUserDTO.getUserNewPassword());
 
         // 엔티티 저장 후 반환
         return userRepository.save(user);
