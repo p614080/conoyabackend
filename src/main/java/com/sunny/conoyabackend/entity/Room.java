@@ -1,8 +1,5 @@
-package com.sunny.conoyabackend.infomation;
+package com.sunny.conoyabackend.entity;
 
-import com.sunny.conoyabackend.domain.Review;
-import com.sunny.conoyabackend.domain.ReviewComment;
-import com.sunny.conoyabackend.entity.OwnerEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

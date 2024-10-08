@@ -1,6 +1,6 @@
 //package com.sunny.conoyabackend.informationcontroller;
 //
-//import com.sunny.conoyabackend.infomation.Room;
+//import com.sunny.conoyabackend.entity.Room;
 //import org.springframework.web.bind.annotation.*;
 //
 //import java.util.ArrayList;

@@ -4,7 +4,6 @@ package com.sunny.conoyabackend.entity;
 import com.sunny.conoyabackend.domain.Favorites;
 import com.sunny.conoyabackend.domain.Review;
 import com.sunny.conoyabackend.domain.ReviewComment;
-import com.sunny.conoyabackend.infomation.Room;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
