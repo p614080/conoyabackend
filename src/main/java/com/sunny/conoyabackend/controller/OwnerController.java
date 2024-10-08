@@ -93,9 +93,9 @@ public class OwnerController {
     }
 
 
-    // 닉네임 변경
+    // 점포명 변경
     @PutMapping("/{id}/store-name")
-    public ResponseEntity<OwnerEntity> updateNickname(@PathVariable Long userId, @RequestParam OwnerDTO storeName ) {
+    public ResponseEntity<OwnerEntity> updateStoreName(@PathVariable Long userId, @RequestParam OwnerDTO storeName ) {
         OwnerEntity updateStoreInfo = ownerService.updateStoreInfo(userId, storeName);
         return ResponseEntity.ok(updateStoreInfo);
     }
