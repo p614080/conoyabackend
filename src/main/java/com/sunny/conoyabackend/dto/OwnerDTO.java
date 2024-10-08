@@ -1,14 +1,13 @@
 package com.sunny.conoyabackend.dto;
 
 
-import lombok.Builder;
-import lombok.Getter;
-
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OwnerDTO {
 
     private Long ownerId;
@@ -22,8 +21,4 @@ public class OwnerDTO {
     private String newPassword;
     private String oldPassword;
 
-    public OwnerDTO(String storeName, String location) {
-        this.storeName = storeName;
-        this.location = location;
-    }
 }

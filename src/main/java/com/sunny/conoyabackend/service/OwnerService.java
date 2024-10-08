@@ -146,10 +146,10 @@ public class OwnerService {
 
         // DTO 변환
         List<OwnerDTO> ownerDTOs = owners.stream()
-                .map(owner -> new OwnerDTO(
-                        owner.getStoreName(), // getter 메서드 사용
-                        owner.getLocation()   // getter 메서드 사용
-                ))
+                .map(owner -> OwnerDTO.builder()
+                        .storeName(owner.getStoreName())
+                        .location(owner.getLocation())
+                        .build())
                 .collect(Collectors.toList());
 
         // 반환할 PageResponseDTO 생성

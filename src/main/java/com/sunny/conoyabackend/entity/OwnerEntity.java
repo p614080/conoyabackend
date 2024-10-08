@@ -49,6 +49,11 @@ public class OwnerEntity {
     @OneToMany(mappedBy = "ownerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<ReviewComment> reviewComments = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "roomId")
+    private Room room;
+
     // 업데이트 메서드
     public void updateStoreInfo(String storeName, String description, String location, String imageUrl) {
         if (storeName != null && !storeName.isEmpty()) {

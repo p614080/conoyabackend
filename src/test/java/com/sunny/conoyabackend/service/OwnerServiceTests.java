@@ -28,38 +28,67 @@ class OwnerServiceTests {
     @Autowired
     private OwnerService ownerService;
 
+//    @Test
+//    @DisplayName("점주 정보 수정 테스트")
+//    @Transactional
+//    public void test_updateStoreInfo() {
+//        // Given: Initial data setup
+//        OwnerEntity initialOwner = OwnerEntity.builder()
+//                .ownerEmail("initial@example.com")
+//                .ownerNum("1234567890")
+//                .ownerPassword("password123")
+//                .storeName("Initial Karaoke")
+//                .imageUrl("http://example.com/initial.jpg")
+//                .description("Initial description")
+//                .build();
+//
+//        OwnerEntity savedOwner = ownerRepository.save(initialOwner);
+//
+//        // When: Updating store info
+//        OwnerDTO updateDTO = new OwnerDTO();
+//        updateDTO.setOwnerEmail("updated@example.com");
+//        updateDTO.setStoreName("Updated Karaoke");
+//        updateDTO.setImageUrl("http://example.com/updated.jpg");
+//        updateDTO.setDescription("Updated description");
+//
+//        OwnerEntity updatedOwner = ownerService.updateStoreInfo(savedOwner.getOwnerId(), updateDTO);
+//
+//        // Then: Verify the update
+//        assertThat(updatedOwner.getOwnerEmail()).isEqualTo("updated@example.com");
+//        assertThat(updatedOwner.getStoreName()).isEqualTo("Updated Karaoke");
+//        assertThat(updatedOwner.getImageUrl()).isEqualTo("http://example.com/updated.jpg");
+//        assertThat(updatedOwner.getDescription()).isEqualTo("Updated description");
+//
+//        log.info("Updated Owner Entity: {}", updatedOwner);
+//    }
+
     @Test
-    @DisplayName("점주 정보 수정 테스트")
-    @Transactional
+    @DisplayName("점주 정보 업데이트 테스트")
     public void test_updateStoreInfo() {
-        // Given: Initial data setup
         OwnerEntity initialOwner = OwnerEntity.builder()
                 .ownerEmail("initial@example.com")
                 .ownerNum("1234567890")
                 .ownerPassword("password123")
                 .storeName("Initial Karaoke")
+                .location("Initial Location")
                 .imageUrl("http://example.com/initial.jpg")
                 .description("Initial description")
                 .build();
+        ownerRepository.save(initialOwner);
 
-        OwnerEntity savedOwner = ownerRepository.save(initialOwner);
+        OwnerDTO updateInfo = OwnerDTO.builder()
+                .storeName("Updated Karaoke")
+                .location("Updated Location")
+                .description("Updated description")
+                .imageUrl("http://example.com/updated.jpg")
+                .build();
 
-        // When: Updating store info
-        OwnerDTO updateDTO = new OwnerDTO();
-        updateDTO.setOwnerEmail("updated@example.com");
-        updateDTO.setStoreName("Updated Karaoke");
-        updateDTO.setImageUrl("http://example.com/updated.jpg");
-        updateDTO.setDescription("Updated description");
+        OwnerEntity updatedOwner = ownerService.updateStoreInfo(initialOwner.getOwnerId(), updateInfo);
 
-        OwnerEntity updatedOwner = ownerService.updateStoreInfo(savedOwner.getOwnerId(), updateDTO);
-
-        // Then: Verify the update
-        assertThat(updatedOwner.getOwnerEmail()).isEqualTo("updated@example.com");
         assertThat(updatedOwner.getStoreName()).isEqualTo("Updated Karaoke");
-        assertThat(updatedOwner.getImageUrl()).isEqualTo("http://example.com/updated.jpg");
+        assertThat(updatedOwner.getLocation()).isEqualTo("Updated Location");
         assertThat(updatedOwner.getDescription()).isEqualTo("Updated description");
-
-        log.info("Updated Owner Entity: {}", updatedOwner);
+        assertThat(updatedOwner.getImageUrl()).isEqualTo("http://example.com/updated.jpg");
     }
 
     @Test
