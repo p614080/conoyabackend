@@ -145,8 +145,9 @@ class OwnerServiceTests {
 
     @Test
     @DisplayName("소유자 삭제 테스트 ")
-    public void test_deleteOwner() {
+     public void test_deleteOwner() {
         OwnerEntity owner = OwnerEntity.builder()
+                .ownerId(19L)
                 .ownerEmail("delete@example.com")
                 .ownerNum("5566778899")
                 .ownerPassword("deletepassword123")
@@ -157,19 +158,19 @@ class OwnerServiceTests {
                 .build();
         OwnerEntity savedOwner = ownerRepository.save(owner);
 
-        // 삭제 수행
+         // 삭제 수행
         ownerRepository.deleteById(savedOwner.getOwnerId());
 
         // 삭제 결과 검증
         Optional<OwnerEntity> deletedOwner = ownerRepository.findById(savedOwner.getOwnerId());
-        assertThat(deletedOwner).isNotPresent();
+        assertThat(deletedOwner).isEmpty();
     }
 
 
     @Test
     @DisplayName("점주 정보 수정 실패 테스트 - 존재하지 않는 ID")
     @Transactional
-    public void test_updateStoreInfo_nonExistentId() {
+    public void test_updateStoreInfo2_nonExistentId() {
         // Given: Non-existent ownerId
         Long nonExistentId = 9999L;
 
