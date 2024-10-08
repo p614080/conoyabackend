@@ -91,6 +91,7 @@ class OwnerServiceTests {
     @DisplayName("소유자 정보 수정 테스트")
     public void test_updateStoreInfo() {
         OwnerEntity initialOwner = OwnerEntity.builder()
+                .ownerId(19L)
                 .ownerEmail("initial@example.com")
                 .ownerNum("1234567890")
                 .ownerPassword("password123")

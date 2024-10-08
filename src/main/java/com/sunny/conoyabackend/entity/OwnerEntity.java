@@ -74,8 +74,14 @@ public class OwnerEntity {
         this.ownerNum = ownerNum;
     }
 
-    // Nickname에 대한 setter만 추가
+    // password 에 대한 setter만 추가
     public void setOwnerPassword(String ownerPassword) {
         this.ownerPassword = ownerPassword;
     }
+
+    // email 에 대한 setter만 추가
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
+    }
+
 }
