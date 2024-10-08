@@ -1,9 +1,7 @@
 package com.sunny.conoyabackend.repository;
 
 import com.sunny.conoyabackend.dto.OwnerDTO;
-import com.sunny.conoyabackend.dto.UserDTO;
 import com.sunny.conoyabackend.entity.OwnerEntity;
-import com.sunny.conoyabackend.entity.UserEntity;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
