@@ -22,8 +22,4 @@ public class OwnerDTO {
     private String newPassword;
     private String oldPassword;
 
-    public OwnerDTO(String storeName, String location) {
-        this.storeName = storeName;
-        this.location = location;
-    }
 }
