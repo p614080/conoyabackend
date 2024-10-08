@@ -170,7 +170,7 @@ class OwnerServiceTests {
     @Test
     @DisplayName("점주 정보 수정 실패 테스트 - 존재하지 않는 ID")
     @Transactional
-    public void test_updateStoreInfo_nonExistentId() {
+    public void test_updateStoreInfo2_nonExistentId() {
         // Given: Non-existent ownerId
         Long nonExistentId = 9999L;
 
