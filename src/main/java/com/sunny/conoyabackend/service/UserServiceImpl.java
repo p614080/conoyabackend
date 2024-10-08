@@ -1,5 +1,6 @@
 package com.sunny.conoyabackend.service;
 
+import com.sunny.conoyabackend.dto.EmailDTO;
 import com.sunny.conoyabackend.dto.UserDTO;
 import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.repository.UserRepository;
@@ -10,7 +11,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserService{
 
     /**
      * 회원가입
+     *
      * @param userDto
      * @return String
      */
@@ -41,11 +43,11 @@ public class UserServiceImpl implements UserService{
     public String join(UserDTO userDto) {
         // 이메일 중복 확인
         if (checkLoginEmailDuplicate(userDto.getUserEmail())) {
-            return "이메일 중복" ;
+            return "이메일 중복";
         }
         // 닉네임 중복 확인
         if (checkNicknameDuplicate(userDto.getUserNickname())) {
-           return "닉네임 중복";
+            return "닉네임 중복";
         }
         // UserEntity 생성 및 저장
         UserEntity userEntity = UserEntity.builder()
@@ -78,6 +80,7 @@ public class UserServiceImpl implements UserService{
 
     /**
      * 임시 비밀번호 생성
+     *
      * @return
      */
     @Override
@@ -92,5 +95,25 @@ public class UserServiceImpl implements UserService{
         return password.toString();
     }
 
+    @Override
+    public void sendTemporaryPassword(String userEmail) {
+        // 사용자 조회
+        UserEntity user = userRepository.findByUserEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일을 가진 사용자가 없습니다."));
 
+        // 임시 비밀번호 생성
+        String temporaryPassword = generateTemporaryPassword();
+
+        // 이메일로 임시 비밀번호 전송
+        EmailDTO emailMessage = EmailDTO.builder()
+                .to(userEmail)
+                .subject("임시 비밀번호 발급 안내")
+                .message("임시 비밀번호: " + temporaryPassword + "\n로그인 후 비밀번호를 변경하세요.")
+                .build();
+        emailService.sendMail(emailMessage);
+
+        // 사용자 비밀번호 업데이트 (암호화 없이 그대로 저장)
+        user.setUserPassword(temporaryPassword); // 암호화 없이 그대로 저장
+        userRepository.save(user);
+    }
 }

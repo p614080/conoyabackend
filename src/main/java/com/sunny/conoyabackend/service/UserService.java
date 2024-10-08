@@ -15,5 +15,5 @@ public interface UserService {
     // 임시 비밀번호 생성
     public String generateTemporaryPassword();
 
-
+    void sendTemporaryPassword(String userEmail);
 }
