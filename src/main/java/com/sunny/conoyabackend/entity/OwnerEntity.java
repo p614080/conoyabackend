@@ -70,7 +70,9 @@ public class OwnerEntity {
         }
 
     }
-
+    public void changeOwnerNum(String ownerNum) {
+        this.ownerNum = ownerNum;
+    }
 
     // Nickname에 대한 setter만 추가
     public void setOwnerPassword(String ownerPassword) {
