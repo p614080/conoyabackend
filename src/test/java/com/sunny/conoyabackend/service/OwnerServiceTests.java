@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -62,8 +64,31 @@ class OwnerServiceTests {
 //        log.info("Updated Owner Entity: {}", updatedOwner);
 //    }
 
+
     @Test
-    @DisplayName("점주 정보 업데이트 테스트")
+    @DisplayName("초기 소유자 엔티티 생성 및 저장")
+    public void test_createOwner() {
+        OwnerEntity newOwner = OwnerEntity.builder()
+                .ownerEmail("new@example.com")
+                .ownerNum("0987654321")
+                .ownerPassword("newpassword123")
+                .storeName("New Karaoke")
+                .location("New Location")
+                .imageUrl("http://example.com/new.jpg")
+                .description("New description")
+                .build();
+        OwnerEntity savedOwner = ownerRepository.save(newOwner);
+
+        // 생성 결과 검증
+        assertThat(savedOwner.getOwnerId()).isNotNull();
+        assertThat(savedOwner.getStoreName()).isEqualTo("New Karaoke");
+        assertThat(savedOwner.getLocation()).isEqualTo("New Location");
+        assertThat(savedOwner.getImageUrl()).isEqualTo("http://example.com/new.jpg");
+        assertThat(savedOwner.getDescription()).isEqualTo("New description");
+    }
+
+    @Test
+    @DisplayName("초기 소유자 엔티티 생성 및 저장")
     public void test_updateStoreInfo() {
         OwnerEntity initialOwner = OwnerEntity.builder()
                 .ownerEmail("initial@example.com")
@@ -76,6 +101,7 @@ class OwnerServiceTests {
                 .build();
         ownerRepository.save(initialOwner);
 
+        // 업데이트할 정보가 담긴 DTO 생성
         OwnerDTO updateInfo = OwnerDTO.builder()
                 .storeName("Updated Karaoke")
                 .location("Updated Location")
@@ -83,13 +109,62 @@ class OwnerServiceTests {
                 .imageUrl("http://example.com/updated.jpg")
                 .build();
 
+        // 서비스 메서드를 호출하여 업데이트 수행
         OwnerEntity updatedOwner = ownerService.updateStoreInfo(initialOwner.getOwnerId(), updateInfo);
 
+        // 업데이트 결과 검증
         assertThat(updatedOwner.getStoreName()).isEqualTo("Updated Karaoke");
         assertThat(updatedOwner.getLocation()).isEqualTo("Updated Location");
         assertThat(updatedOwner.getDescription()).isEqualTo("Updated description");
         assertThat(updatedOwner.getImageUrl()).isEqualTo("http://example.com/updated.jpg");
     }
+
+    @Test
+    @DisplayName("ID를 이용하여 소유자 정보 조회")
+    public void test_readOwnerInfo() {
+        OwnerEntity owner = OwnerEntity.builder()
+                .ownerEmail("read@example.com")
+                .ownerNum("1122334455")
+                .ownerPassword("readpassword123")
+                .storeName("Read Karaoke")
+                .location("Read Location")
+                .imageUrl("http://example.com/read.jpg")
+                .description("Read description")
+                .build();
+        OwnerEntity savedOwner = ownerRepository.save(owner);
+
+        Optional<OwnerEntity> retrievedOwner = ownerRepository.findById(savedOwner.getOwnerId());
+
+        // 조회 결과 검증
+        assertThat(retrievedOwner).isPresent();
+        assertThat(retrievedOwner.get().getStoreName()).isEqualTo("Read Karaoke");
+        assertThat(retrievedOwner.get().getLocation()).isEqualTo("Read Location");
+        assertThat(retrievedOwner.get().getImageUrl()).isEqualTo("http://example.com/read.jpg");
+        assertThat(retrievedOwner.get().getDescription()).isEqualTo("Read description");
+    }
+
+    @Test
+    @DisplayName("초기 소유자 엔티티 생성 및 저장")
+    public void test_deleteOwner() {
+        OwnerEntity owner = OwnerEntity.builder()
+                .ownerEmail("delete@example.com")
+                .ownerNum("5566778899")
+                .ownerPassword("deletepassword123")
+                .storeName("Delete Karaoke")
+                .location("Delete Location")
+                .imageUrl("http://example.com/delete.jpg")
+                .description("Delete description")
+                .build();
+        OwnerEntity savedOwner = ownerRepository.save(owner);
+
+        // 삭제 수행
+        ownerRepository.deleteById(savedOwner.getOwnerId());
+
+        // 삭제 결과 검증
+        Optional<OwnerEntity> deletedOwner = ownerRepository.findById(savedOwner.getOwnerId());
+        assertThat(deletedOwner).isNotPresent();
+    }
+
 
     @Test
     @DisplayName("점주 정보 수정 실패 테스트 - 존재하지 않는 ID")
