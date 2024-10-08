@@ -2,6 +2,7 @@ package com.sunny.conoyabackend.domain;
 
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.entity.UserEntity;
+import com.sunny.conoyabackend.infomation.Room;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,5 +32,7 @@ public class Review {
     private String reviewContent;
     private LocalDate dueDate;
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "commentNo")
+    private ReviewComment reviewComment;
 }
