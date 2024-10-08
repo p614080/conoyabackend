@@ -50,12 +50,28 @@ public class UserRepositoryTests {
     @Test
     @DisplayName("일반회원 회원 수정")
     public void updateUser(){
+        // db에서 가져온 값이 있으면 UserEntity 타입으로 가져온다.
         Optional<UserEntity> result = userRepository.findByUserEmail("test@email.com");
+        UserEntity userEntity = result.orElseThrow();
+
+        // DTO를 만들고 업데이트 할 값을 넣어준다.
         UserDTO userDTO = new UserDTO();
         userDTO.setUserPassword("5678");
-        userDTO.setUserNickname("안녕하세오");
+        userDTO.setUserNickname("안녕하세요");
 
-        result.orElseThrow();
+        //Entity에 DTO 값을 넣어준다.
+        userEntity.setUserNickname(userDTO.getUserNickname());
+        userEntity.setUserPassword(userDTO.getUserPassword());
 
+        //리포지토리에서 엔터티 save를 한다.
+        userRepository.save(userEntity);
+    }
+
+    @Test
+    @DisplayName("일반회원 탈퇴")
+    public void deleteUser(){
+        Optional<UserEntity> result = userRepository.findByUserEmail("test@email.com");
+        UserEntity  userEntity = result.orElseThrow();
+        userRepository.delete(userEntity);
     }
 }
