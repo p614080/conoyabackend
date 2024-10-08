@@ -5,20 +5,20 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
+
 
 @Service
 @RequiredArgsConstructor
 public class EmailService {
-    private final JavaMailSender javaMailSender;
-    private String from; // 발신자 이메일
 
-    public void setFrom(String from) {
-        this.from = from;
-    }
+    private final JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.username}") // 발신자 이메일을 프로퍼티 파일에서 자동 주입
+    private String from; // 발신자 이메일을 자동으로 설정
 
     public void sendMail(EmailDTO emailMessage) {
         if (from == null || emailMessage.getTo() == null) {
@@ -31,13 +31,14 @@ public class EmailService {
             mimeMessageHelper.setTo(emailMessage.getTo());
             mimeMessageHelper.setSubject(emailMessage.getSubject());
             mimeMessageHelper.setText(emailMessage.getMessage(), false);
-            mimeMessageHelper.setFrom(new InternetAddress(from)); // 동적으로 설정된 발신자 이메일
+            mimeMessageHelper.setFrom(new InternetAddress(from)); // 프로퍼티에서 설정된 발신자 이메일
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
     }
 }
+
 
 
 

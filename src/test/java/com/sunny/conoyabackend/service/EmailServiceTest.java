@@ -28,15 +28,15 @@ public class EmailServiceTest {
         MimeMessage mimeMessage = Mockito.mock(MimeMessage.class);
         Mockito.when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
 
-        // 테스트용 이메일 정보 생성
+
+        // EmailDTO 객체 생성 (수신자 이메일 설정)
         EmailDTO emailDTO = EmailDTO.builder()
-                .to("recipient@example.com")
+                .to("recipient@example.com")  // 수신자 이메일 설정
                 .subject("Test Subject")
                 .message("Test Message")
                 .build();
 
         // 이메일 발송
-        emailService.setFrom("sender@example.com");
         emailService.sendMail(emailDTO);
 
         // JavaMailSender의 send 메서드가 호출되었는지 확인
