@@ -19,7 +19,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private EmailService emailService;
 
-    @Autowired
     private UserDTO userDTO;
 
 

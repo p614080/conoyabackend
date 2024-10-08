@@ -19,92 +19,40 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     /**
      * 회원가입 API
-     * @param joinDTO 회원가입 요청 데이터
+     * @param userDTO 회원가입 요청 데이터
+     * @param bindingResult 에러 결과
      * @return HTTP 상태 코드
      */
     @PostMapping("/join")
-    public ResponseEntity<String> join(@RequestBody JoinDTO joinDTO, BindingResult bindingResult) {
-        userService.join(joinDTO);  // 회원가입 서비스 호출
+    public ResponseEntity<String> join(@RequestBody UserDTO userDTO, BindingResult bindingResult) {
         // 비밀번호 일치 검증
-        if (!joinDTO.getUserPassword().equals(joinDTO.getUserPasswordCheck())) {
-            bindingResult.rejectValue("userPassword", "userPasswordCheck",
-                    "2개의 패스워드가 일치하지 않습니다.");
-        }
-        // 이미 등록된 사용자
+//        if (!userDTO.getUserPassword().equals(userDTO.getUserPasswordCheck())) {
+//            bindingResult.rejectValue("userPassword", "userPasswordCheck", "2개의 패스워드가 일치하지 않습니다.");
+//            return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다."); // 400 Bad Request
+//        }
+
+        // 이미 등록된 사용자 처리
         try {
-            userService.join(joinDTO);
-        }catch(DataIntegrityViolationException e) {
-            e.printStackTrace();
-            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            bindingResult.reject("signupFailed", e.getMessage());
-
+            userService.join(userDTO);
+            return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);  // 성공 메시지와 상태 코드 반환
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 등록된 사용자입니다."); // 409 Conflict
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("가입 중 오류가 발생했습니다.");
         }
-        return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);  // 성공 메시지와 상태 코드 반환
     }
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<UserEntity> login(@RequestBody LoginDTO loginDTO) {
-        UserEntity loggedInMember = userService.login(loginDTO);
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+        UserEntity loggedInMember = userService.login(userDTO);
+        if (loggedInMember == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 또는 비밀번호가 잘못되었습니다."); // 401 Unauthorized
+        }
         return ResponseEntity.ok(loggedInMember); // 로그인 성공 시 회원 정보 반환
     }
-    // 로그아웃
-    @PostMapping("/logout")
-    public UserEntity logout(HttpServletRequest request, @RequestBody UserEntity user) {
-        return userService.logout(request, user);
-    }
 
-    // 이메일 중복 체크 API
-    @GetMapping("/check-email")
-    public ResponseEntity<?> checkEmail(@RequestParam String userEmail) {
-        try {
-            // 중복 여부 확인
-            boolean isDuplicate = userService.checkLoginEmailDuplicate(userEmail);
-            return ResponseEntity.ok(isDuplicate);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error checking email duplication");
-        }
-    }
-    // 닉네임 중복 체크 API
-    @GetMapping("/check-nickname")
-    public ResponseEntity<?> checkNickname(@RequestParam String nickName) {
-        try {
-            // 유효성 검증
-            if (nickName == null || nickName.trim().isEmpty()) {
-                return ResponseEntity.badRequest().body("Invalid store name");
-            }
 
-            // 중복 여부 확인
-            boolean isDuplicate = userService.checkNicknameDuplicate(nickName);
-            return ResponseEntity.ok(isDuplicate);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error checking store name duplication");
-        }
-    }
-
-    // 닉네임 변경
-    @PutMapping("/{id}/nickname")
-    public ResponseEntity<UserEntity> updateNickname(@PathVariable Long userId, @RequestParam UserDTO nicknameUpdate ) {
-        UserEntity updatedMember = userService.updateNickname(userId, nicknameUpdate);
-        return ResponseEntity.ok(updatedMember);
-    }
-    // 비밀번호 변경
-    @PutMapping("/{id}/password")
-    public ResponseEntity<UserEntity> changePassword(@PathVariable Long userId, @RequestParam UserDTO passwordUserDTO) {
-        UserEntity updatedUserEntity = userService.changePassword(userId, passwordUserDTO);
-        return ResponseEntity.ok(updatedUserEntity);
-    }
-
-    // 회원 탈퇴
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMember(@PathVariable Long userId) {
-        userService.deleteMember(userId);
-        return ResponseEntity.noContent().build();
-    }
 }
