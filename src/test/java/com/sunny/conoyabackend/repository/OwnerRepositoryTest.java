@@ -50,7 +50,7 @@ public class OwnerRepositoryTest {
     }
 
     @Test
-    @DisplayName("일반회원 정보 수정")
+    @DisplayName("점주회원 정보 수정")
     @Transactional
     public void updateUser() {
         // db에서 가져온 값이 있으면 OwnerEntity 타입으로 가져온다.
@@ -70,7 +70,7 @@ public class OwnerRepositoryTest {
 
 
     @Test
-    @DisplayName("일반회원 탈퇴")
+    @DisplayName("점주회원 탈퇴")
     public void deleteUser(){
         Optional<OwnerEntity> result = ownerRepository.findByOwnerEmail("test@email.com");
         OwnerEntity  ownerEntity = result.orElseThrow();
