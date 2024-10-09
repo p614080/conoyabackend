@@ -8,7 +8,10 @@ import java.util.List;
 public interface RoomService {
     Long register(RoomDTO roomDTO);
     RoomDTO get(Long roomId);
+
     void modify(RoomDTO roomDTO);
+    void insertTime(RoomDTO roomDTO);
+    void insertCoin(RoomDTO roomDTO);
 
     void remove(Long roomId);
     List<RoomDTO> getRoomsByOwnerId(Long ownerId);

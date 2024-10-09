@@ -21,6 +21,13 @@ public class RoomController {
         return ResponseEntity.ok(roomDTOList);
     }
 
+    @PutMapping
+    public Map<String, String> modify(@PathVariable(name = "roomId")Long roomId, @RequestBody RoomDTO roomDTO){
+        roomDTO.setRoomId(roomId);
+        roomService.modify(roomDTO);
+        return Map.of("result", "SUCCESS");
+    }
+
     @DeleteMapping
     public Map<String, String> remove(@PathVariable(name = "roomId") Long roomId){
         roomService.remove(roomId);

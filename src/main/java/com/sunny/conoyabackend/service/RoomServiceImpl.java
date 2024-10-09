@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,6 +42,24 @@ public class RoomServiceImpl implements RoomService{
         room.setRoomNumber(roomDTO.getRoomNumber());
         room.setRoomSize(roomDTO.getRoomSize());
         room.setRoomRate(roomDTO.getRoomRate());
+        roomRepository.save(room);
+    }
+    @Override
+    public void insertTime(RoomDTO roomDTO){
+        Optional<Room> result = roomRepository.findById(roomDTO.getRoomId());
+        Room room = result.orElseThrow();
+        room.setStartTime(LocalDateTime.now());
+        room.setPaymentTime(roomDTO.getPaymentTime());
+        room.setUseroom(true);
+        roomRepository.save(room);
+    }
+    @Override
+    public void insertCoin(RoomDTO roomDTO){
+        Optional<Room> result = roomRepository.findById(roomDTO.getRoomId());
+        Room room = result.orElseThrow();
+        room.setStartTime(LocalDateTime.now());
+        room.setPaymentCoin(roomDTO.getPaymentCoin());
+        room.setUseroom(true);
         roomRepository.save(room);
     }
 
