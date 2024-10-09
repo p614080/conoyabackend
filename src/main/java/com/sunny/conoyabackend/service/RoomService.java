@@ -9,6 +9,7 @@ public interface RoomService {
     Long register(RoomDTO roomDTO);
     RoomDTO get(Long roomId);
 
+    boolean isUse(Long roomId);
     void modify(RoomDTO roomDTO);
     void insertTime(RoomDTO roomDTO);
     void insertCoin(RoomDTO roomDTO);

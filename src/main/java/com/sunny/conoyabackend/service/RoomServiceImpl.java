@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +34,30 @@ public class RoomServiceImpl implements RoomService{
         Room room = result.orElseThrow();
         RoomDTO roomDTO = modelMapper.map(room, RoomDTO.class);
         return roomDTO;
+    }
+
+    @Override
+    public boolean isUse(Long roomId){
+        LocalDateTime currentTime = LocalDateTime.now();
+        int minutesDifferent;
+        Optional<Room> result = roomRepository.findById(roomId);
+        Room room = result.orElseThrow();
+        if(!room.isUseroom()){
+            return false;
+        }else{
+            if(room.getPaymentTime()==0){
+                return true;
+            }
+            else{
+                minutesDifferent = (int) ChronoUnit.MINUTES.between(room.getStartTime(), currentTime);
+                if(minutesDifferent < room.getPaymentTime()){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
     }
 
     @Override
