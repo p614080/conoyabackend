@@ -147,6 +147,7 @@ public class OwnerService {
         // DTO 변환
         List<OwnerDTO> ownerDTOs = owners.stream()
                 .map(owner -> OwnerDTO.builder()
+                        .ownerId(owner.getOwnerId()) //점주 아이디(고유번호)를 추가하였습니다.
                         .storeName(owner.getStoreName())
                         .location(owner.getLocation())
                         .build())
