@@ -43,9 +43,10 @@ public class RoomServiceImpl implements RoomService{
         Optional<Room> result = roomRepository.findById(roomId);
         Room room = result.orElseThrow();
         if(!room.isUseroom()){
+            room.setStartTime(null);
             return false;
         }else{
-            if(room.getPaymentTime()==0){
+            if(room.getPaymentTime()!=0){
                 room.setUseroom(true);
                 roomRepository.save(room);
                 return true;
@@ -103,13 +104,13 @@ public class RoomServiceImpl implements RoomService{
         if(isUse(room.getRoomId())){
             if(room.getPaymentCoin() != 0){
                 room.setPaymentCoin(room.getPaymentCoin() - 1);
-            }
-            else{
-
+                isUse(room.getRoomId());
+                roomRepository.save(room);
+            }else{
+                room.setUseroom(false);
+                isUse(room.getRoomId());
             }
         }
-        room.setPaymentCoin(roomDTO.getPaymentCoin());
-        roomRepository.save(room);
     }
 
 

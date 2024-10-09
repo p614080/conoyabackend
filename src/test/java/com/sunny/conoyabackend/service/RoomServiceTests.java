@@ -43,4 +43,19 @@ class RoomServiceTests {
         boolean isUsed = roomService.isUse(7L);
         log.info("Room 7 사용 여부: {}", isUsed); // boolean 값을 문자열로 출력
     }
+
+    @Test
+    @DisplayName("코인 추가 테스트")
+    public void test_coin(){
+        RoomDTO roomDTO = roomService.get(7L);
+        roomService.insertCoin(roomDTO, 4);
+    }
+
+    @Test
+    @DisplayName("코인 추가 테스트")
+    public void test_decrease_coin(){
+        RoomDTO roomDTO = roomService.get(7L);
+        roomService.decreaseCoin(roomDTO);
+        roomService.decreaseCoin(roomDTO);
+    }
 }
