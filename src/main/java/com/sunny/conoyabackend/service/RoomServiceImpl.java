@@ -46,14 +46,22 @@ public class RoomServiceImpl implements RoomService{
             return false;
         }else{
             if(room.getPaymentTime()==0){
+                room.setUseroom(true);
+                roomRepository.save(room);
                 return true;
             }
             else{
                 minutesDifferent = (int) ChronoUnit.MINUTES.between(room.getStartTime(), currentTime);
                 if(minutesDifferent < room.getPaymentTime()){
+                    room.setUseroom(true);
+                    roomRepository.save(room);
                     return true;
                 }
                 else{
+                    room.setUseroom(false);
+                    room.setPaymentTime(0);
+                    room.setStartTime(null);
+                    roomRepository.save(room);
                     return false;
                 }
             }
