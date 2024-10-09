@@ -11,8 +11,9 @@ public interface RoomService {
 
     boolean isUse(Long roomId);
     void modify(RoomDTO roomDTO);
-    void insertTime(RoomDTO roomDTO);
-    void insertCoin(RoomDTO roomDTO);
+    void insertTime(RoomDTO roomDTO, int time);
+    void insertCoin(RoomDTO roomDTO, int coin);
+    void decreaseCoin(RoomDTO roomDTO);
 
     void remove(Long roomId);
     List<RoomDTO> getRoomsByOwnerId(Long ownerId);

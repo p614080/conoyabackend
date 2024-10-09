@@ -78,23 +78,40 @@ public class RoomServiceImpl implements RoomService{
         roomRepository.save(room);
     }
     @Override
-    public void insertTime(RoomDTO roomDTO){
+    public void insertTime(RoomDTO roomDTO, int time){
         Optional<Room> result = roomRepository.findById(roomDTO.getRoomId());
         Room room = result.orElseThrow();
         room.setStartTime(LocalDateTime.now());
-        room.setPaymentTime(roomDTO.getPaymentTime());
+        room.setPaymentTime(10);
         room.setUseroom(true);
         roomRepository.save(room);
     }
     @Override
-    public void insertCoin(RoomDTO roomDTO){
+    public void insertCoin(RoomDTO roomDTO, int coin){
         Optional<Room> result = roomRepository.findById(roomDTO.getRoomId());
         Room room = result.orElseThrow();
         room.setStartTime(LocalDateTime.now());
-        room.setPaymentCoin(roomDTO.getPaymentCoin());
+        room.setPaymentCoin(coin);
         room.setUseroom(true);
         roomRepository.save(room);
     }
+
+    @Override
+    public void decreaseCoin(RoomDTO roomDTO){
+        Optional<Room> result = roomRepository.findById(roomDTO.getRoomId());
+        Room room = result.orElseThrow();
+        if(isUse(room.getRoomId())){
+            if(room.getPaymentCoin() != 0){
+                room.setPaymentCoin(room.getPaymentCoin() - 1);
+            }
+            else{
+
+            }
+        }
+        room.setPaymentCoin(roomDTO.getPaymentCoin());
+        roomRepository.save(room);
+    }
+
 
     @Override
     public void remove(Long roomId){
