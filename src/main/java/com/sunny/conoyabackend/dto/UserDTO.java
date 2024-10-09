@@ -15,5 +15,5 @@ public class UserDTO {
     private String userEmail;
     private String userNickname;
     private String userPassword;
-    private String userNewPassword;
+//    private String userNewPassword;
 }

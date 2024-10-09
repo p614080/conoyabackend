@@ -34,9 +34,6 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 회원가입
-     *
-     * @param userDto
-     * @return String
      */
     @Override
     public String join(UserDTO userDto) {
@@ -79,8 +76,6 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 임시 비밀번호 생성
-     *
-     * @return
      */
     @Override
     public String generateTemporaryPassword() {
@@ -115,4 +110,17 @@ public class UserServiceImpl implements UserService {
         user.setUserPassword(temporaryPassword); // 암호화 없이 그대로 저장
         userRepository.save(user);
     }
+
+    @Override
+    public void updateUser(UserDTO userDTO) {
+        // 이메일을 기준으로 기존 사용자 조회
+        UserEntity user = userRepository.findByUserEmail(userDTO.getUserEmail())
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        // 사용자 정보 업데이트
+        user.setUserNickname(userDTO.getUserNickname());
+        user.setUserPassword(userDTO.getUserPassword());
+        userRepository.save(user); // 변경사항 저장
+    }
+
 }

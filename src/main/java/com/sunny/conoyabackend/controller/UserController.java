@@ -5,6 +5,7 @@ import com.sunny.conoyabackend.dto.LoginDTO;
 import com.sunny.conoyabackend.dto.UserDTO;
 import com.sunny.conoyabackend.entity.UserEntity;
 import com.sunny.conoyabackend.service.UserService;
+import com.sunny.conoyabackend.service.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserServiceImpl userServiceImpl;
 
     /**
      * 회원가입 API
@@ -52,6 +56,20 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 또는 비밀번호가 잘못되었습니다."); // 401 Unauthorized
         }
         return ResponseEntity.ok(loggedInMember); // 로그인 성공 시 회원 정보 반환
+    }
+    /**
+     * 사용자 정보 업데이트 API
+     * @param userDTO 업데이트할 사용자 정보
+     * @return HTTP 상태 코드
+     */
+    @PostMapping("/updateUser")
+    public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO) {
+        try {
+            userService.updateUser(userDTO);
+            return ResponseEntity.ok("사용자 정보가 성공적으로 업데이트되었습니다."); // 200 OK
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정보 수정 중 오류가 발생했습니다.");
+        }
     }
 
 

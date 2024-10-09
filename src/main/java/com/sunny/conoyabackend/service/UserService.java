@@ -19,4 +19,7 @@ public interface UserService {
     public String generateTemporaryPassword();
 
     void sendTemporaryPassword(String userEmail);
+
+    // 사용자 정보 업데이트 메서드 선언
+    void updateUser(UserDTO userDTO);
 }
