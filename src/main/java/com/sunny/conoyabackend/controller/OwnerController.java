@@ -3,6 +3,7 @@ package com.sunny.conoyabackend.controller;
 import com.sunny.conoyabackend.dto.*;
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.service.OwnerService;
+import com.sunny.conoyabackend.service.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @Slf4j
@@ -23,6 +25,9 @@ public class OwnerController {
     @Autowired
     private OwnerService ownerService;
 
+    @Autowired
+    private RoomService roomService;
+
     // 점주 리스트 가져오기
     @GetMapping("/list")
     public ResponseEntity<PageResponseDTO<OwnerDTO>> list(PageRequestDTO pageRequestDTO) {
@@ -31,10 +36,18 @@ public class OwnerController {
         return ResponseEntity.ok(response);
     }
 
-    //점주 정보
+    // 점주 정보 (노래방 방 리스트 가지고 있는 정보)
     @GetMapping("/detail/{ownerId}")
-    public OwnerDTO get(@PathVariable(name = "ownerId")Long ownerId){
-        return ownerService.get(ownerId);
+    public SingRoomDetailDTO get(@PathVariable(name = "ownerId") Long ownerId) {
+        System.out.println(ownerId);
+        // 1. 노래방 정보가 들어있는 점주의 데이터를 가져온다.
+        OwnerDTO ownerDTO = ownerService.get(ownerId);
+        // 2. 점주의 데이터 안에 있는 roomId로 room 정보를 가져온다.
+        List<RoomDTO> roomDTOList = roomService.getRoomsByOwnerId(ownerId);
+        // 3. 점주 정보와 방 정보를 합쳐서 SingroomDTO 객체를 생성한다.
+        SingRoomDetailDTO singroomDTO = new SingRoomDetailDTO(ownerDTO, roomDTOList);
+        // 4. SingroomDTO 객체를 반환한다.
+        return singroomDTO;
     }
 
     // 노래방 정보 변경
