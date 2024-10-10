@@ -50,8 +50,8 @@ class RoomRepositoryTests {
                         .orElseThrow(() -> new IllegalArgumentException("Owner not found"));
 
                 Room room = Room.builder()
-                        .roomNumber(4)
-                        .roomSize(10)
+                        .roomNumber(2)
+                        .roomSize(4)
                         .ownerEntity(owner)  // 영속화된 owner 엔티티 사용
                         .build();
 

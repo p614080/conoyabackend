@@ -83,7 +83,7 @@ public class RoomServiceImpl implements RoomService{
         Optional<Room> result = roomRepository.findById(roomDTO.getRoomId());
         Room room = result.orElseThrow();
         room.setStartTime(LocalDateTime.now());
-        room.setPaymentTime(10);
+        room.setPaymentTime(time);
         room.setUseroom(true);
         roomRepository.save(room);
     }

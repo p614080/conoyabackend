@@ -32,16 +32,16 @@ class RoomServiceTests {
     @Test
     @DisplayName("시간 추가 테스트")
     public void test_time(){
-        RoomDTO roomDTO = roomService.get(7L);
-        roomService.insertTime(roomDTO, 10);
+        RoomDTO roomDTO = roomService.get(1L);
+        roomService.insertTime(roomDTO, 3);
     }
 
     @Test
     @DisplayName("사용 여부 테스트")
     public void test_is_use() {
         log.info("====사용 여부 테스트====");
-        boolean isUsed = roomService.isUse(7L);
-        log.info("Room 7 사용 여부: {}", isUsed); // boolean 값을 문자열로 출력
+        boolean isUsed = roomService.isUse(1L);
+        log.info("Room 1 사용 여부: {}", isUsed); // boolean 값을 문자열로 출력
     }
 
     @Test
