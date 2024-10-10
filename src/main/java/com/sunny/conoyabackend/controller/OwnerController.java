@@ -32,7 +32,7 @@ public class OwnerController {
     }
 
     //점주 정보
-    @GetMapping("/list/{ownerId}")
+    @GetMapping("/detail/{ownerId}")
     public OwnerDTO get(@PathVariable(name = "ownerId")Long ownerId){
         return ownerService.get(ownerId);
     }
