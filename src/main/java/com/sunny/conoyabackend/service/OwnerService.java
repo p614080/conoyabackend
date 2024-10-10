@@ -31,9 +31,15 @@ public class OwnerService {
         return ownerRepository.existsByOwnerEmail(ownerEmail);
     }
 
-    //회원가입
     public void join2(JoinDTO ownerReq) {
-        ownerRepository.save(ownerReq.ownerEntity());
+        // 이메일 검증
+        if (ownerReq.getOwnerEmail() == null || ownerReq.getOwnerEmail().isEmpty()) {
+            throw new IllegalArgumentException("이메일은 필수 입력 사항입니다.");
+        }
+
+        // OwnerEntity 생성 및 저장
+        OwnerEntity ownerEntity = ownerReq.ownerEntity();
+        ownerRepository.save(ownerEntity);
     }
 
     // 로그인

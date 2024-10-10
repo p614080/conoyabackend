@@ -55,6 +55,7 @@ public class JoinDTO {
 
     public OwnerEntity ownerEntity() {
         return OwnerEntity.builder()
+                .ownerEmail(this.ownerEmail)
                 .ownerNum(this.ownerNum)
                 .ownerPassword(this.ownerPassword)
                 .storeName(this.storeName)

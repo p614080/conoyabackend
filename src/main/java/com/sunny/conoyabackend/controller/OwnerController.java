@@ -46,26 +46,27 @@ public class OwnerController {
      */
     @PostMapping("/join2")
     public ResponseEntity<String> join(@RequestBody JoinDTO joinDTO, BindingResult bindingResult) {
-        ownerService.join2(joinDTO);  // 회원가입 서비스 호출
         // 비밀번호 일치 검증
         if (!joinDTO.getOwnerPassword().equals(joinDTO.getOwnerPasswordCheck())) {
-            bindingResult.rejectValue("password", "passwordCheck",
-                    "2개의 패스워드가 일치하지 않습니다.");
+            bindingResult.rejectValue("ownerPassword", "ownerPasswordCheck", "2개의 패스워드가 일치하지 않습니다.");
+            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
-        // 이미 등록된 사용자
+
         try {
+            // 회원가입 서비스 호출
             ownerService.join2(joinDTO);
-        }catch(DataIntegrityViolationException e) {
-            e.printStackTrace();
+            return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            // 중복된 사용자 예외 처리
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-
-        }catch(Exception e) {
-            e.printStackTrace();
+            return new ResponseEntity<>("이미 등록된 이메일입니다.", HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            // 기타 예외 처리
             bindingResult.reject("signupFailed", e.getMessage());
-
+            return new ResponseEntity<>("서버 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);  // 성공 메시지와 상태 코드 반환
     }
+
 
 
     // 로그인
@@ -83,13 +84,11 @@ public class OwnerController {
     // 이메일 중복 체크 API
     @GetMapping("/check-email")
     public ResponseEntity<?> checkEmail(@RequestParam String ownerEmail) {
-        try {
-            // 중복 여부 확인
-            boolean isDuplicate = ownerService.checkLoginEmailDuplicate(ownerEmail);
-            return ResponseEntity.ok(isDuplicate);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error checking email duplication");
+        boolean isDuplicate = ownerService.checkLoginEmailDuplicate(ownerEmail);
+        if (isDuplicate) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 사용 중인 이메일입니다.");
         }
+        return ResponseEntity.ok("사용 가능한 이메일입니다.");
     }
 
 
