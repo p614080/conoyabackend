@@ -23,12 +23,7 @@ public class UserController {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
-    /**
-     * 회원가입 API
-     * @param userDTO 회원가입 요청 데이터
-     * @param bindingResult 에러 결과
-     * @return HTTP 상태 코드
-     */
+
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody UserDTO userDTO, BindingResult bindingResult) {
         // 비밀번호 일치 검증
@@ -57,20 +52,24 @@ public class UserController {
         }
         return ResponseEntity.ok(loggedInMember); // 로그인 성공 시 회원 정보 반환
     }
-    /**
-     * 사용자 정보 업데이트 API
-     * @param userDTO 업데이트할 사용자 정보
-     * @return HTTP 상태 코드
-     */
-    @PostMapping("/updateUser")
-    public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO) {
-        try {
-            userService.updateUser(userDTO);
-            return ResponseEntity.ok("사용자 정보가 성공적으로 업데이트되었습니다."); // 200 OK
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정보 수정 중 오류가 발생했습니다.");
-        }
+    @GetMapping("/info")
+    public ResponseEntity<UserDTO> getUserInfo(@RequestParam String userEmail) {
+        UserDTO userInfo = userService.getUserByEmail(userEmail);
+        return ResponseEntity.ok(userInfo);
     }
 
+    @PutMapping("/updateNickname")
+    public ResponseEntity<String> updateNickname(@RequestBody UserDTO userDTO) {
+        userService.updateNickname(userDTO.getUserEmail(), userDTO.getUserNickname());
+        return ResponseEntity.ok("닉네임이 성공적으로 업데이트되었습니다.");
+    }
 
+    @PutMapping("/updatePassword")
+    public ResponseEntity<String> updatePassword(@RequestBody UserDTO userDTO) {
+        userService.updatePassword(userDTO.getUserEmail(), userDTO.getUserPassword());
+        return ResponseEntity.ok("비밀번호가 성공적으로 업데이트되었습니다.");
+    }
 }
+
+
+

@@ -112,15 +112,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(UserDTO userDTO) {
-        // 이메일을 기준으로 기존 사용자 조회
-        UserEntity user = userRepository.findByUserEmail(userDTO.getUserEmail())
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-
-        // 사용자 정보 업데이트
-        user.setUserNickname(userDTO.getUserNickname());
-        user.setUserPassword(userDTO.getUserPassword());
-        userRepository.save(user); // 변경사항 저장
+    public UserDTO getUserByEmail(String userEmail) {
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        // UserEntity를 UserDTO로 변환하여 반환
+        return convertToDTO(userEntity);
     }
+
+    @Override
+    public void updateNickname(String userEmail, String newNickname) {
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userEntity.setUserNickname(newNickname);
+        userRepository.save(userEntity);
+    }
+
+    @Override
+    public void updatePassword(String userEmail, String newPassword) {
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userEntity.setUserPassword(newPassword);
+        userRepository.save(userEntity);
+    }
+
+    // UserEntity를 UserDTO로 변환하는 메서드
+    private UserDTO convertToDTO(UserEntity userEntity) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(userEntity.getUserId());
+        userDTO.setUserEmail(userEntity.getUserEmail());
+        userDTO.setUserNickname(userEntity.getUserNickname());
+        return userDTO;
+    }
+
 
 }

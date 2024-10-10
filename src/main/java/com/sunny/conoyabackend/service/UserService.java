@@ -20,6 +20,12 @@ public interface UserService {
 
     void sendTemporaryPassword(String userEmail);
 
-    // 사용자 정보 업데이트 메서드 선언
-    void updateUser(UserDTO userDTO);
-}
+    // 사용자 정보를 이메일로 조회
+    UserDTO getUserByEmail(String userEmail);
+
+    // 닉네임 업데이트
+    void updateNickname(String userEmail, String newNickname);
+
+    // 비밀번호 업데이트
+    void updatePassword(String userEmail, String newPassword);
+    }
