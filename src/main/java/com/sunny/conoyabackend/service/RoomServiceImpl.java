@@ -46,7 +46,7 @@ public class RoomServiceImpl implements RoomService{
             room.setStartTime(null);
             return false;
         }else{
-            if(room.getPaymentTime()!=0){
+            if(room.getPaymentTime()==0){
                 room.setUseroom(true);
                 roomRepository.save(room);
                 return true;
