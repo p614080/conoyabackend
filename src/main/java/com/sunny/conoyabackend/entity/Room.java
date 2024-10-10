@@ -32,6 +32,7 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images; // 연관된 이미지 목록
 
-    @OneToOne(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)  // Changed from OneToOne to ManyToOne
+    @JoinColumn(name = "ownerId")
     private OwnerEntity ownerEntity;
 }
