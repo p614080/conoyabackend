@@ -121,9 +121,10 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public List<RoomDTO> getRoomsByOwnerId(Long ownerId) {
-        isUse(ownerId);
         List<Room> rooms = roomRepository.findAllByOwnerEntity_OwnerId(ownerId);
-
+        rooms.forEach(room -> {
+            isUse(room.getRoomId());
+        });
         // 엔티티 목록을 DTO 목록으로 변환
         return rooms.stream()
                 .map(room -> modelMapper.map(room, RoomDTO.class))
