@@ -31,6 +31,12 @@ public class OwnerController {
         return ResponseEntity.ok(response);
     }
 
+    //점주 정보
+    @GetMapping("/list/{ownerId}")
+    public OwnerDTO get(@PathVariable(name = "ownerId")Long ownerId){
+        return ownerService.get(ownerId);
+    }
+
     // 노래방 정보 변경
     @PutMapping("/{id}/store-info")
     public ResponseEntity<OwnerEntity> updateStoreInfo(

@@ -7,6 +7,7 @@ import com.sunny.conoyabackend.repository.OwnerRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -161,6 +162,15 @@ public class OwnerService {
 
         // 반환할 PageResponseDTO 생성
         return new PageResponseDTO<>(ownerDTOs, pageRequestDTO, ownerRepository.count());
+    }
+
+    // 점주 인포
+    private final ModelMapper modelMapper;
+    public OwnerDTO get(Long ownerId) {
+        Optional<OwnerEntity> result = ownerRepository.findById(ownerId);
+        OwnerEntity ownerEntity = result.orElseThrow();
+        OwnerDTO ownerDTO = modelMapper.map(ownerEntity, OwnerDTO.class);
+        return ownerDTO;
     }
 }
 
