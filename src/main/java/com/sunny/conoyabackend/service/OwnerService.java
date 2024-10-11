@@ -11,8 +11,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -133,4 +135,38 @@ public class OwnerService {
     }
 
 
+    public OwnerDTO get(Long ownerId) {
+        Optional<OwnerEntity> result = ownerRepository.findById(ownerId);
+        OwnerEntity ownerEntity = result.orElseThrow();
+        OwnerDTO ownerDTO = new OwnerDTO();
+        ownerDTO.setOwnerId(ownerEntity.getOwnerId());
+        ownerDTO.setOwnerEmail(ownerEntity.getOwnerEmail());
+        ownerDTO.setOwnerNum(ownerEntity.getOwnerNum());
+        ownerDTO.setStoreName(ownerEntity.getStoreName());
+        ownerDTO.setLocation(ownerEntity.getLocation());
+        ownerDTO.setImageUrl(ownerEntity.getImageUrl());
+        ownerDTO.setDescription(ownerEntity.getDescription());
+        return ownerDTO;
+    }
+
+    // 점주 목록 가져오기
+    public PageResponseDTO<OwnerDTO> list(PageRequestDTO pageRequestDTO) {
+        int page = pageRequestDTO.getPage() - 1; // 페이지는 0부터 시작
+        int size = pageRequestDTO.getSize();
+        // 데이터베이스에서 점주 목록 가져오기
+        List<OwnerEntity> owners = ownerRepository.findAll().stream()
+                .skip(page * size) // 페이징 처리
+                .limit(size) // 페이지 크기만큼 제한
+                .collect(Collectors.toList());
+        // DTO 변환
+        List<OwnerDTO> ownerDTOs = owners.stream()
+                .map(owner -> OwnerDTO.builder()
+                        .ownerId(owner.getOwnerId()) //점주 아이디(고유번호)를 추가하였습니다.
+                        .storeName(owner.getStoreName())
+                        .location(owner.getLocation())
+                        .build())
+                .collect(Collectors.toList());
+        // 반환할 PageResponseDTO 생성
+        return new PageResponseDTO<>(ownerDTOs, pageRequestDTO, ownerRepository.count());
+    }
 }

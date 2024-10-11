@@ -14,7 +14,6 @@ public interface RoomService {
     void insertTime(RoomDTO roomDTO, int time);
     void insertCoin(RoomDTO roomDTO, int coin);
     void decreaseCoin(RoomDTO roomDTO);
-
     void remove(Long roomId);
     List<RoomDTO> getRoomsByOwnerId(Long ownerId);
 }

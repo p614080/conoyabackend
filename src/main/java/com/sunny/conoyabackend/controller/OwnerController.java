@@ -3,6 +3,7 @@ package com.sunny.conoyabackend.controller;
 import com.sunny.conoyabackend.dto.*;
 import com.sunny.conoyabackend.entity.OwnerEntity;
 import com.sunny.conoyabackend.service.OwnerService;
+import com.sunny.conoyabackend.service.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/owners")
@@ -19,6 +22,10 @@ public class OwnerController {
 
     @Autowired
     private OwnerService ownerService;
+
+    @Autowired
+    private RoomService roomService;
+
 
     // 점주 정보 조회
     @GetMapping("/mypage")
@@ -98,4 +105,37 @@ public class OwnerController {
         ownerService.deleteMember(id);
         return ResponseEntity.noContent().build();
     }
+
+    // 점주 정보 및 노래방 방 리스트 가져오기
+    @GetMapping("/detail/{ownerId}")
+    public ResponseEntity<SingRoomDetailDTO> getSingRoomDetail(@PathVariable(name = "ownerId") Long ownerId) {
+        log.info("Retrieving details for owner ID: {}", ownerId);
+
+        try {
+            // 1. 노래방 정보가 들어있는 점주의 데이터를 가져온다.
+            OwnerDTO ownerDTO = ownerService.get(ownerId);
+
+            // 2. 점주의 데이터 안에 있는 roomId로 room 정보를 가져온다.
+            List<RoomDTO> roomDTOList = roomService.getRoomsByOwnerId(ownerId);
+
+            // 3. 점주 정보와 방 정보를 합쳐서 SingroomDTO 객체를 생성한다.
+            SingRoomDetailDTO singroomDTO = new SingRoomDetailDTO(ownerDTO, roomDTOList);
+
+            // 4. SingroomDTO 객체를 반환한다.
+            return ResponseEntity.ok(singroomDTO);
+        } catch (RuntimeException e) {
+            log.error("Failed to retrieve details for owner ID: {}. Error: {}", ownerId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            log.error("An unexpected error occurred while retrieving details for owner ID: {}. Error: {}", ownerId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @GetMapping("/list")
+    public ResponseEntity<PageResponseDTO<OwnerDTO>> list(PageRequestDTO pageRequestDTO) {
+        log.info(pageRequestDTO.toString());
+        PageResponseDTO<OwnerDTO> response = ownerService.list(pageRequestDTO);
+        return ResponseEntity.ok(response);
+    }
+
 }
