@@ -47,12 +47,11 @@ public class OwnerService {
     }
 
     // 점주 회원가입
-    public void joinOwner(JoinDTO joinDTO) {
-        if (ownerRepository.existsByOwnerEmail(joinDTO.getOwnerEmail())) {
+    public void joinOwner(OwnerDTO ownerDTO) {
+        if (ownerRepository.existsByOwnerEmail(ownerDTO.getOwnerEmail())) {
             throw new DataIntegrityViolationException("이미 등록된 이메일입니다.");
         }
-
-        OwnerEntity ownerEntity = modelMapper.map(joinDTO, OwnerEntity.class);
+        OwnerEntity ownerEntity = modelMapper.map(ownerDTO, OwnerEntity.class);
         ownerRepository.save(ownerEntity);
     }
 
@@ -132,4 +131,6 @@ public class OwnerService {
         owner.setOwnerPassword(temporaryPassword);
         ownerRepository.save(owner);
     }
+
+
 }

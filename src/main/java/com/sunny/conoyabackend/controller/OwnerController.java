@@ -42,14 +42,13 @@ public class OwnerController {
 
     // 회원가입 API
     @PostMapping("/join")
-    public ResponseEntity<String> join(@RequestBody JoinDTO joinDTO, BindingResult bindingResult) {
-        if (!joinDTO.getOwnerPassword().equals(joinDTO.getOwnerPasswordCheck())) {
+    public ResponseEntity<String> join(@RequestBody OwnerDTO ownerDTO, BindingResult bindingResult) {
+        if (!ownerDTO.getOwnerPassword().equals(ownerDTO.getNewPassword())) {
             return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
-
         try {
-            ownerService.joinOwner(joinDTO);
-            return new ResponseEntity<>("User successfully registered", HttpStatus.CREATED);
+            ownerService.joinOwner(ownerDTO);
+            return new ResponseEntity<>("회원가입 되셨습니다.", HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
             return new ResponseEntity<>("이미 등록된 이메일입니다.", HttpStatus.CONFLICT);
         } catch (Exception e) {

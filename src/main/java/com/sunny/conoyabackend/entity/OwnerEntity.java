@@ -38,6 +38,8 @@ public class OwnerEntity {
     private String description; // 노래방 정보
 
 
+
+
     @OneToMany(mappedBy = "ownerEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Favorites> favorites = new ArrayList<>();
