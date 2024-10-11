@@ -37,7 +37,8 @@ public class OwnerService {
 
         ownerEntity.updateStoreInfo(
                 ownerDTO.getStoreName(),
-                ownerDTO.getDescription(),
+                ownerDTO.getOwnerNum(),
+                ownerDTO.getOwnerEmail(),
                 ownerDTO.getLocation(),
                 ownerDTO.getImageUrl()
         );
@@ -79,20 +80,20 @@ public class OwnerService {
     public boolean checkLoginEmailDuplicate(String ownerEmail) {
         return ownerRepository.existsByOwnerEmail(ownerEmail);
     }
+    public void changeOwnerPassword(OwnerDTO ownerDTO) {
+        // 이메일로 사용자 조회
+        OwnerEntity ownerEntity = ownerRepository.findByOwnerEmail(ownerDTO.getOwnerEmail())
+                .orElseThrow(() -> new RuntimeException("해당 이메일을 가진 사용자를 찾을 수 없습니다."));
 
-    // 비밀번호 변경
-    public void changeOwnerPassword(String ownerEmail, OwnerDTO ownerDTO) {
-        OwnerEntity ownerEntity = ownerRepository.findByOwnerEmail(ownerEmail)
-                .orElseThrow(() -> new RuntimeException("Owner not found with id: " + ownerEmail));
-
+        // 기존 비밀번호 확인
         if (!ownerEntity.getOwnerPassword().equals(ownerDTO.getOwnerPassword())) {
-            throw new RuntimeException("Incorrect current password");
+            throw new RuntimeException("현재 비밀번호가 올바르지 않습니다.");
         }
 
-        ownerEntity.setOwnerPassword(ownerDTO.getOwnerNewPassword());
+        // 새 비밀번호로 업데이트
+        ownerEntity.setOwnerPassword(ownerDTO.getNewPassword()); // 새 비밀번호 설정
         ownerRepository.save(ownerEntity);
     }
-
     // 회원 탈퇴
     public void deleteMember(Long ownerId) {
         ownerRepository.deleteById(ownerId);

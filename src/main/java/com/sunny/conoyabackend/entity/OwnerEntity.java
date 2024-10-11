@@ -55,7 +55,7 @@ public class OwnerEntity {
     private List<Room> rooms = new ArrayList<>();
 
     // 업데이트 메서드
-    public void updateStoreInfo(String storeName, String description, String location, String imageUrl) {
+    public void updateStoreInfo(String storeName, String description, String location, String imageUrl, String ownerNum) {
         if (storeName != null && !storeName.isEmpty()) {
             this.storeName = storeName;
         }
@@ -68,10 +68,10 @@ public class OwnerEntity {
         if (imageUrl != null && !imageUrl.isEmpty()) {
             this.imageUrl = imageUrl;
         }
+        if (ownerNum != null && !ownerNum.isEmpty()) {
+            this.ownerNum = ownerNum;
+        }
 
-    }
-    public void changeOwnerNum(String ownerNum) {
-        this.ownerNum = ownerNum;
     }
 
     // password 에 대한 setter만 추가

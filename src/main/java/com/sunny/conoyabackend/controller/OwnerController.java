@@ -81,17 +81,18 @@ public class OwnerController {
         return ResponseEntity.ok("사용 가능한 이메일입니다.");
     }
 
-    // 비밀번호 변경
-    @PutMapping("change-password")
-    public ResponseEntity<String> changePassword(@RequestParam String ownerEmail, @RequestBody OwnerDTO ownerDTO) {
+    @PutMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody OwnerDTO ownerDTO) {
         try {
-            ownerService.changeOwnerPassword(ownerEmail, ownerDTO);
+            // ownerEmail, 현재 비밀번호, 새 비밀번호를 DTO로 받음
+            ownerService.changeOwnerPassword(ownerDTO);
             return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경 중 오류가 발생했습니다.");
         }
     }
-
     // 회원 탈퇴
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
